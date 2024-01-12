@@ -2,11 +2,11 @@ import { forwardRef } from "react";
 
 const Input = forwardRef((props, ref) => {
     return (
-        <div className="mb-3">
+        <div className="mb-3 fonts">
             <label htmlFor={props.name} className="form-label" style={{ fontSize: 20, color: "blue", fontWeight: 400 }}>
                 {props.title}
             </label>
-            <div className="">
+            <div className="fonts">
                 <input
                     style={{ color: "#444", border: "1px solid blue", borderRadius: 8, height: 40, fontSize: 18, width: 250 }}
                     type={props.type}
@@ -24,7 +24,7 @@ const Input = forwardRef((props, ref) => {
 
 export const InputLong = forwardRef((props, ref) => {
     return (
-        <div className="mb-3 text-center" >
+        <div className="mb-3 fonts" >
             <label htmlFor={props.name} className="form-label" style={{ fontSize: 20, color: "blue", fontWeight: 400 }}>
                 {props.title}
             </label>

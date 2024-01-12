@@ -1,19 +1,75 @@
 import { useEffect, useState } from "react";
 import Input, { InputLong } from "./Input";
+import { useOutletContext } from "react-router-dom";
 
 const InsertForm = () => {
 
-    const [wood, setWood] = useState({});
-    const [lastID, setLastID] = useState(null);
+    const [fire, setFire] = useState(false);
+    const [planed, setPlaned] = useState(false);
+    const [str8, setStr8] = useState(true);
 
-    const [selectedOption, setSelectedOption] = useState("");
+    const [wood, setWood] = useState({
+        length: "",
+        width: "",
+        height: "",
+        weight: "",
+        color: "",
+        image: "",
+        storage_location: "",
+        source: "",
+        info: "",
+        is_planed: false,
+        is_straight: true,
+        is_fire_treated: false
+    });
+
+    const [newRow, setNewRow] = useState({});
+    const [lastID, setLastID] = useState(null);
+    const { setAlertMessage, setAlertClassName } = useOutletContext();
+    const [isAnyFieldNotEmpty, setIsAnyFieldNotEmpty] = useState(false);
 
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
-    useEffect(() => {
+    const showAlert = (message, className, timeout = 5000) => {
+        setAlertMessage(message);
+        setAlertClassName(className);
 
-    }, [refresh]);
+        setTimeout(() => {
+            setAlertMessage("");
+            setAlertClassName("");
+        }, timeout);
+    };
+
+    const resetWoodState = () => {
+        setWood({
+            length: "",
+            width: "",
+            height: "",
+            weight: "",
+            color: "",
+            image: "",
+            storage_location: "",
+            source: "",
+            info: "",
+            is_planed: false,
+            is_straight: true,
+            is_fire_treated: false
+        });
+    };
+
+    useEffect(() => {
+        const anyFieldNotEmpty = Object.keys(wood).some((key) => {
+            const value = wood[key];
+            if (typeof value === "string") {
+                return value.trim() !== "";
+            } else if (typeof value === "number") {
+                return value !== null;
+            }
+            return false;
+        });
+        setIsAnyFieldNotEmpty(anyFieldNotEmpty);
+    }, [refresh, lastID, wood]);
 
     const handleRefreshPage = () => {
         if (!refresh) {
@@ -28,51 +84,85 @@ const InsertForm = () => {
     const handleClearForm = () => {
         document.querySelectorAll('input').forEach(input => {
             input.value = '';
+            if (input.name === 'straight') {
+                input.checked = true;
+                setStr8(true);
+            } else {
+                if (input.name === 'fire' || input.name === 'planed') {
+                    input.checked = false;
+                    setFire(false);
+                    setPlaned(false);
+                }
+            }
         });
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        setIsSubmitted(true);
 
+        if (!isAnyFieldNotEmpty) {
+            showAlert("Please fill all the fields", "alert-danger", 3000);
+            return;
+        }
+
+        setIsSubmitted(true);
+        if (wood.width === 'undefined') {
+            showAlert("Please fill the fields", "alert-danger", 3000);
+        }
         const buttonValue = event.nativeEvent.submitter.value;
         if (buttonValue === "submit") {
+            wood.is_fire_treated = fire;
+            wood.is_planed = planed;
+            wood.is_straight = str8;
             const requestOptions = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(wood)
             }
-            fetch(`https://robotlab-residualwood.onrender.com/wood`, requestOptions)
-                .then((response) => response.json())
-                .then((data) => {
-                    setLastID(data.id);
-                    var payload = {
-                        event: "Wood added to the Database",
-                        wood_id: data.id
-                    }
-                    const historyRequestOptions = {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(payload)
-                    }
-                    fetch(`https://robotlab-residualwood.onrender.com/history`, historyRequestOptions)
-                        .catch((e) => {
-                            console.error(e);
-                        })
-                })
-                .catch((err) => {
-                    console.error(err.message);
-                })
-                .finally(() => {
+
+            try {
+                const response = await fetch(`https://robotlab-residualwood.onrender.com/wood`, requestOptions);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setLastID(data.id);
+                setNewRow(data);
+                showAlert("New row created", "alert-success", 3000);
+
+                var payload = {
+                    event: "Wood added to the Database",
+                    wood_id: data.id
+                }
+
+                const historyRequestOptions = {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                }
+
+                const historyResponse = await fetch(`https://robotlab-residualwood.onrender.com/history`, historyRequestOptions);
+                if (!historyResponse.ok) {
+                    throw new Error(`HTTP error! Status: ${historyResponse.status}`);
+                }
+
+                setTimeout(() => {
                     handleRefreshPage();
-                })
+                    resetWoodState();
+                }, 2000);
+
+            } catch (error) {
+                console.error(error.message);
+                showAlert(error.message, "alert-danger", 3000);
+            }
         }
     };
 
     const handleWoodDataChange = (field, value) => {
-        setWood(prevWood => ({
+        setWood((prevWood) => ({
             ...prevWood,
-            [field]: value
+            [field]: value,
         }));
     };
 
@@ -81,9 +171,9 @@ const InsertForm = () => {
             <form onSubmit={handleSubmit} className="mb-5 mt-5">
                 <div className=" mt-5 justify-content-center px-4 py-4">
                     <div className="row justify-content-center">
-                        <div className="col-md-3" style={{ width: 'fit-content' }}>
+                        <div className="col-md-4" style={{ width: 'fit-content' }}>
                             <Input
-                                title="Length"
+                                title="Length (mm) *"
                                 id="length"
                                 type="number"
                                 className="me-4"
@@ -91,7 +181,7 @@ const InsertForm = () => {
                                 onChange={(e) => handleWoodDataChange("length", e.target.value)}
                             />
                             <Input
-                                title="Width"
+                                title="Width (mm) *"
                                 id="width"
                                 type="number"
                                 className="me-4"
@@ -99,7 +189,7 @@ const InsertForm = () => {
                                 onChange={(e) => handleWoodDataChange("width", e.target.value)}
                             />
                             <Input
-                                title="Height"
+                                title="Height (mm) *"
                                 id="height"
                                 type="number"
                                 className="me-4"
@@ -107,7 +197,7 @@ const InsertForm = () => {
                                 onChange={(e) => handleWoodDataChange("height", e.target.value)}
                             />
                             <Input
-                                title="Weight"
+                                title="Weight (grams) *"
                                 id="weight"
                                 type="number"
                                 className="me-4"
@@ -115,9 +205,9 @@ const InsertForm = () => {
                                 onChange={(e) => handleWoodDataChange("weight", e.target.value)}
                             />
                         </div>
-                        <div className="col-md-3 justify-content-end" style={{ width: 'fit-content' }}>
+                        <div className="col-md-4 justify-content-end" style={{ width: 'fit-content' }}>
                             <Input
-                                title="Color"
+                                title="Color (r, g, b)"
                                 id="color"
                                 type="text"
                                 className="me-4"
@@ -163,30 +253,47 @@ const InsertForm = () => {
                                 <input
                                     className="form-check-input checkbox-custom"
                                     type="checkbox"
+                                    name="straight"
+                                    id="straight"
                                     defaultChecked={true}
+                                    onChange={(e) => setStr8(e.target.checked)}
+
                                 ></input>
-                                <label style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Straight</label>
+                                <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Straight</label>
 
                                 <input
                                     className="form-check-input checkbox-custom ms-4"
                                     type="checkbox"
+                                    name="planed"
+                                    id="planed"
                                     defaultChecked={false}
+                                    onChange={(e) => setPlaned(e.target.checked)}
                                 ></input>
-                                <label style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Planed</label>
+                                <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Planed</label>
 
                                 <input
                                     className="form-check-input checkbox-custom ms-4"
                                     type="checkbox"
+                                    name="fire"
+                                    id="fire"
                                     defaultChecked={false}
+                                    onChange={(e) => setFire(e.target.checked)}
+
                                 ></input>
-                                <label style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Fire Treated</label>
+                                <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Fire Treated</label>
                             </div>
                             <div className="row justify-content-center">
-                                <button type="submit" value="submit" className="btn btn-submit-light-large mt-5" style={{ fontSize: 20, width: 150 }}>Submit</button>
-                                <button value="clear" className="btn btn-secondary mt-5 ms-2" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>
+                                <button type="submit" value="submit" className="btn btn-submit-light-large mt-5 fonts" style={{ fontSize: 20, width: 150 }}>Submit</button>
+                                <button value="clear" className="btn btn-secondary mt-5 ms-2 fonts" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>
                             </div>
-                            <div className="container mt-4 mb-2" style={{ backgroundColor: "#EEE" }}>
-                                <p>Last Inserted Row ID: {lastID}</p>
+                            <div className="container mt-4 mb-2" style={{ backgroundColor: "#FFFF0060" }}>
+                                <p className="fonts">Last Inserted Row ID</p>
+                                <p className="fonts text-center">{lastID}</p>
+                            </div>
+                        </div>
+                        <div className="col-md-4" style={{ width: 'fit-content' }}>
+                            <div className="px-4 py-4 " style={{ backgroundColor: 'blue', height: 500, overflowY: 'auto' }}>
+                                <pre style={{ color: 'white', }}>{lastID ? JSON.stringify(newRow, null, 2) : 'The entered data row will be displayed here'}</pre>
                             </div>
                         </div>
                     </div>

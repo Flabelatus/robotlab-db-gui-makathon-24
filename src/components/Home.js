@@ -1,5 +1,3 @@
-import { Link, useOutletContext } from "react-router-dom";
-import { useEffect, useState } from "react";
 import InsertForm from "./InsertForm";
 
 
@@ -9,12 +7,11 @@ const Home = () => {
         <>
             <div className="row justify-content-center" style={{ backgroundColor: "blue" }}>
                 <div>
-                    <h1 style={{ color: 'white', fontFamily: 'arial', fontSize: 60, fontWeight: 800, textAlign: 'center' }}>Wood Data</h1>
-                    <h5 className="text-center mb-5" style={{ color: 'white' }}> Robotlab Minor Makathon January 2024 </h5>
+                    <h1 className="fonts" style={{ color: 'white', fontSize: 60, fontWeight: 700, textAlign: 'center' }}>Wood Data</h1>
+                    <h5 className="text-center mb-5 fonts" style={{ color: 'white' }}> Robotlab Minor Makathon January 2024 </h5>
                 </div>
                 <InsertForm />
             </div>
-
         </>
 
     );

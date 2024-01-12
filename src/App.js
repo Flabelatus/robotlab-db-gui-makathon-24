@@ -1,8 +1,9 @@
 import './App.css';
+import './index.css';
 import { Outlet } from 'react-router-dom'
 import Alert from './components/Alert'
 import { AppBar } from './components/AppBar';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Footer from './components/Footer';
 
 export const AppContext = React.createContext();
@@ -18,7 +19,7 @@ function App() {
         <div>
           <div>
             <AppBar></AppBar>
-            <div className='justify-content-center'>
+            <div className='justify-content-center' style={{backgroundColor: 'blue'}}>
               {alertMessage && (
                 <Alert
                   message={alertMessage}
@@ -33,7 +34,6 @@ function App() {
       </AppContext.Provider>
     </>
   );
-
 }
 
 export default App;
