@@ -8,12 +8,10 @@ const Home = () => {
     return (
         <>
             <div className="row justify-content-center" style={{ backgroundColor: "blue" }}>
-
                 <div>
                     <h1 style={{ color: 'white', fontFamily: 'arial', fontSize: 60, fontWeight: 800, textAlign: 'center' }}>Wood Data</h1>
                     <h5 className="text-center mb-5" style={{ color: 'white' }}> Robotlab Minor Makathon January 2024 </h5>
                 </div>
-
                 <InsertForm />
             </div>
 

@@ -4,32 +4,11 @@ import { AppContext } from "../App";
 import Logo from '.././images/logo.png'
 
 export const AppBar = () => {
-    const { jwtToken, setJwtToken, toggleRefresh } = useContext(AppContext);
     const navigate = useNavigate();
 
     useEffect(() => {
+    }, []);
 
-    }, [jwtToken]);
-
-    const handleLogout = () => {
-        console.log(jwtToken);
-        const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + jwtToken },
-            credentials: 'include'
-        };
-
-        fetch(`http://localhost:8082/logged_in/logout`, requestOptions)
-            .then((response) => response.json())
-            .catch(error => {
-                console.error(error.message);
-            })
-            .finally(() => {
-                setJwtToken("");
-                navigate("/");
-                toggleRefresh(false);
-            });
-    };
     return (
         <>
             <div className="App-header row justify-content-center " >
