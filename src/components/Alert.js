@@ -5,8 +5,7 @@ const Alert = (props) => {
                 <h3 className="h5 text-center">{props.message}</h3>
             </div>
         </div>
-
-    )
+    );
 }
 
 export default Alert;

@@ -32,14 +32,14 @@ export const AppBar = () => {
     };
     return (
         <>
-            <div className="App-header row justify-content-center">
+            <div className="App-header row justify-content-center " >
                 <header className='d-flex justify-content-center align-items-center pb-1 mb-1 mt-4'>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <p className="container" style={{ backgroundColor: 'blue', width: 200, height: 100 }}><img src={Logo} style={{ width: 150 }}></img></p>
-                        <p><Link to="/user_company" className='mt-2 btn btn-outline-secondary- ms-5' style={{ color: 'black', fontSize: 20 }}>Modify</Link></p>
-                        <p><a href="#!" className='mt-2 btn ms-5 btn-submit-light-small-outline-' style={{ color: 'black', fontSize: 20 }}>API Docs</a></p>
-                        <p><a href="#!" className='mt-2 btn ms-5 btn-submit-light-small-outline-' style={{ color: 'black', fontSize: 20 }}>Database Repository</a></p>
-                        {jwtToken === "" && <Link to="/login"><p className='btn btn-submit-light-small ms-5 mt-2' style={{ color: 'white', fontSize: 20 }}>Login</p></Link>}
+                        <p ><img src={Logo} style={{ width: 220 }}></img></p>
+                        <p><Link to="/modify" className='mt-2 btn btn-outline-secondary- ms-5' style={{ color: 'white', fontSize: 20 }}>Modify Data</Link></p>
+                        <p><a className='mt-2 btn ms-5 btn-submit-light-small-outline-' href="https://robotlab-residualwood.onrender.com/api-docs" rel="noopener noreferrer" target="_blank" style={{ color: 'white', fontSize: 20 }}>API Docs</a></p>
+                        <p><a className='mt-2 btn ms-5 btn-submit-light-small-outline-' href="https://uva-hva.gitlab.host/robotlab/wood/cw4.0" rel="noopener noreferrer" target="_blank" style={{ color: 'white', fontSize: 20 }}>Database Repository</a></p>
+                        {jwtToken === "" && <Link to="/login"><p className='btn btn-submit-light-small ms-5 mt-2' style={{ fontSize: 20 }}>Login</p></Link>}
 
                     </div>
                 </header>

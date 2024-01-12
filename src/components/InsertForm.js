@@ -58,13 +58,13 @@ const InsertForm = () => {
     };
 
     return (
-        <div className="justify-content-center">
+        <div className="justify-content-center container mb-5">
             <form onSubmit={handleSubmit} className="mb-5 mt-5">
 
                 <div className=" mt-5 justify-content-center px-4 py-4">
                     <div className="row justify-content-center">
-                        <h3 className="mb-5 text-center">Wood Data</h3>
-                        <div className="col-md-3 container">
+           
+                        <div className="col-md-3 container-" style={{ width: 'fit-content' }}>
                             <Input
                                 title="Length"
                                 id="length"
@@ -98,7 +98,7 @@ const InsertForm = () => {
                                 onChange={(e) => handleWoodDataChange("weight", e.target.value)}
                             />
                         </div>
-                        <div className="col-md-3 container justify-content-end">
+                        <div className="col-md-3 container- justify-content-end" style={{ width: 'fit-content' }}>
                             <Input
                                 title="Color"
                                 id="color"
@@ -133,7 +133,7 @@ const InsertForm = () => {
                             />
 
                         </div>
-                        <div className="col-md-4 container">
+                        <div className="col-md-4 container-" style={{ width: 'fit-content' }}>
                             <InputLong
                                 title="Info"
                                 id="info"
@@ -142,13 +142,16 @@ const InsertForm = () => {
                                 name="info"
                                 onChange={(e) => handleWoodDataChange("info", e.target.value)}
                             />
+                            <div className="row justify-content-center">
+                                <button type="submit" className="btn btn-submit-light-large mt-5" style={{ fontSize: 20, width: 150 }}>Submit</button>
+                                <button className="btn btn-secondary mt-5 ms-2" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>
+
+                            </div>
+
                         </div>
                     </div>
 
                     <div className="row justify-content-center">
-                        {!isSubmitted && <button type="submit" className="btn btn-submit-light-small mt-5" style={{ fontSize: 20, width: 150 }}>Submit</button>}
-                        {isSubmitted && <button className="btn btn-secondary mt-5 ms-4" style={{ fontSize: 20, width: 150 }} onClick={handleRefreshPage}>Refresh</button>}
-                        {!isSubmitted && <button className="btn btn-secondary mt-5 ms-4" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>}
 
                     </div>
                 </div>

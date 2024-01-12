@@ -77,7 +77,7 @@ function App() {
   return (
     <>
       <AppContext.Provider value={{ jwtToken, setJwtToken, toggleRefresh }}>
-        <div >
+        <div>
           <div>
             <AppBar></AppBar>
             <div className='justify-content-center'>
