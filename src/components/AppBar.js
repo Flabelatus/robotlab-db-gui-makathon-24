@@ -39,7 +39,7 @@ export const AppBar = () => {
                         <p><Link to="/modify" className='mt-2 btn btn-outline-secondary- ms-5' style={{ color: 'white', fontSize: 20 }}>Modify Data</Link></p>
                         <p><a className='mt-2 btn ms-5 btn-submit-light-small-outline-' href="https://robotlab-residualwood.onrender.com/api-docs" rel="noopener noreferrer" target="_blank" style={{ color: 'white', fontSize: 20 }}>API Docs</a></p>
                         <p><a className='mt-2 btn ms-5 btn-submit-light-small-outline-' href="https://uva-hva.gitlab.host/robotlab/wood/cw4.0" rel="noopener noreferrer" target="_blank" style={{ color: 'white', fontSize: 20 }}>Database Repository</a></p>
-                        {jwtToken === "" && <Link to="/login"><p className='btn btn-submit-light-small ms-5 mt-2' style={{ fontSize: 20 }}>Login</p></Link>}
+                        <Link to="/login"><p className='btn btn-submit-light-small ms-5 mt-2' style={{ fontSize: 20 }}>Login</p></Link>
 
                     </div>
                 </header>

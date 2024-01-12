@@ -81,3 +81,16 @@
   padding-bottom: 20px;
   width: fit-content;
 }
+
+
+.checkbox-custom {
+  scale: 1.2;
+  background-color: white;
+  border-color: rgba(0, 0, 255, 0.704);
+}
+
+.checkbox-custom:checked {
+  background-color: blue;
+  border-color: rgba(0, 0, 255, 0.704);
+}
+

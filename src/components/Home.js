@@ -4,10 +4,6 @@ import InsertForm from "./InsertForm";
 
 
 const Home = () => {
-    const { jwtToken } = useOutletContext();
-
-    useEffect(() => {
-    }, [])
 
     return (
         <>

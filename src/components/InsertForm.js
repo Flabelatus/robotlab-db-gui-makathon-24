@@ -1,23 +1,10 @@
 import { useEffect, useState } from "react";
 import Input, { InputLong } from "./Input";
-import { useOutletContext } from "react-router-dom";
 
 const InsertForm = () => {
-    const { jwtToken } = useOutletContext();
 
-    const woodData = {
-        length: "",
-        width: "",
-        height: "",
-        weight: "",
-        type: "",
-        name: "",
-        source: "",
-        storage_location: "",
-
-    }
-
-    const [wood, setWood] = useState(woodData);
+    const [wood, setWood] = useState({});
+    const [lastID, setLastID] = useState(null);
 
     const [selectedOption, setSelectedOption] = useState("");
 
@@ -25,7 +12,8 @@ const InsertForm = () => {
     const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
-    }, [wood, refresh]);
+
+    }, [refresh]);
 
     const handleRefreshPage = () => {
         if (!refresh) {
@@ -33,21 +21,52 @@ const InsertForm = () => {
         } else {
             setRefresh(false);
         }
-
         setIsSubmitted(false);
         handleClearForm();
     }
 
     const handleClearForm = () => {
-        setWood({ woodData: woodData });
         document.querySelectorAll('input').forEach(input => {
-            input.value = ''; // Resets input fields directly
+            input.value = '';
         });
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         setIsSubmitted(true);
+
+        const buttonValue = event.nativeEvent.submitter.value;
+        if (buttonValue === "submit") {
+            const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(wood)
+            }
+            fetch(`https://robotlab-residualwood.onrender.com/wood`, requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    setLastID(data.id);
+                    var payload = {
+                        event: "Wood added to the Database",
+                        wood_id: data.id
+                    }
+                    const historyRequestOptions = {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    }
+                    fetch(`https://robotlab-residualwood.onrender.com/history`, historyRequestOptions)
+                        .catch((e) => {
+                            console.error(e);
+                        })
+                })
+                .catch((err) => {
+                    console.error(err.message);
+                })
+                .finally(() => {
+                    handleRefreshPage();
+                })
+        }
     };
 
     const handleWoodDataChange = (field, value) => {
@@ -60,11 +79,9 @@ const InsertForm = () => {
     return (
         <div className="justify-content-center container mb-5">
             <form onSubmit={handleSubmit} className="mb-5 mt-5">
-
                 <div className=" mt-5 justify-content-center px-4 py-4">
                     <div className="row justify-content-center">
-           
-                        <div className="col-md-3 container-" style={{ width: 'fit-content' }}>
+                        <div className="col-md-3" style={{ width: 'fit-content' }}>
                             <Input
                                 title="Length"
                                 id="length"
@@ -98,7 +115,7 @@ const InsertForm = () => {
                                 onChange={(e) => handleWoodDataChange("weight", e.target.value)}
                             />
                         </div>
-                        <div className="col-md-3 container- justify-content-end" style={{ width: 'fit-content' }}>
+                        <div className="col-md-3 justify-content-end" style={{ width: 'fit-content' }}>
                             <Input
                                 title="Color"
                                 id="color"
@@ -133,7 +150,7 @@ const InsertForm = () => {
                             />
 
                         </div>
-                        <div className="col-md-4 container-" style={{ width: 'fit-content' }}>
+                        <div className="col-md-4" style={{ width: 'fit-content' }}>
                             <InputLong
                                 title="Info"
                                 id="info"
@@ -142,17 +159,36 @@ const InsertForm = () => {
                                 name="info"
                                 onChange={(e) => handleWoodDataChange("info", e.target.value)}
                             />
-                            <div className="row justify-content-center">
-                                <button type="submit" className="btn btn-submit-light-large mt-5" style={{ fontSize: 20, width: 150 }}>Submit</button>
-                                <button className="btn btn-secondary mt-5 ms-2" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>
+                            <div className=" mt-5 text-center">
+                                <input
+                                    className="form-check-input checkbox-custom"
+                                    type="checkbox"
+                                    defaultChecked={true}
+                                ></input>
+                                <label style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Straight</label>
 
+                                <input
+                                    className="form-check-input checkbox-custom ms-4"
+                                    type="checkbox"
+                                    defaultChecked={false}
+                                ></input>
+                                <label style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Planed</label>
+
+                                <input
+                                    className="form-check-input checkbox-custom ms-4"
+                                    type="checkbox"
+                                    defaultChecked={false}
+                                ></input>
+                                <label style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Fire Treated</label>
                             </div>
-
+                            <div className="row justify-content-center">
+                                <button type="submit" value="submit" className="btn btn-submit-light-large mt-5" style={{ fontSize: 20, width: 150 }}>Submit</button>
+                                <button value="clear" className="btn btn-secondary mt-5 ms-2" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>
+                            </div>
+                            <div className="container mt-4 mb-2" style={{ backgroundColor: "#EEE" }}>
+                                <p>Last Inserted Row ID: {lastID}</p>
+                            </div>
                         </div>
-                    </div>
-
-                    <div className="row justify-content-center">
-
                     </div>
                 </div>
             </form >
