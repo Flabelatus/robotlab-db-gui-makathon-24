@@ -100,17 +100,17 @@ const InsertForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!isAnyFieldNotEmpty) {
-            showAlert("Please fill all the fields", "alert-danger", 3000);
-            return;
-        }
-
         setIsSubmitted(true);
         if (wood.width === 'undefined') {
             showAlert("Please fill the fields", "alert-danger", 3000);
         }
         const buttonValue = event.nativeEvent.submitter.value;
         if (buttonValue === "submit") {
+
+            if (!isAnyFieldNotEmpty) {
+                showAlert("Please fill all the fields", "alert-danger", 3000);
+                return;
+            }
 
             const headers = new Headers();
             headers.append("Content-Type", "application/json");
@@ -289,15 +289,21 @@ const InsertForm = () => {
                             <div className="row justify-content-center">
                                 <button type="submit" value="submit" className="btn btn-submit-light-large mt-5 fonts" style={{ fontSize: 20, width: 150 }}>Submit</button>
                                 <button value="clear" className="btn btn-secondary mt-5 ms-2 fonts" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>
+                                <button value="clear" className="btn btn-submit-light-small-outline mt-5 ms-2 fonts" style={{ fontSize: 20, width: 100 }} onClick={handleClearForm}>Print</button>
+
                             </div>
-                            <div className="container mt-4 mb-2" style={{ backgroundColor: "#FFFF0060" }}>
-                                <p className="fonts">Last Inserted Row ID</p>
-                                <p className="fonts text-center">{lastID}</p>
-                            </div>
+                            {
+                                lastID &&
+                                <div className="container mt-4 mb-2" style={{ backgroundColor: "#FFFF0060" }}>
+                                    <em className="fonts" style={{ fontSize: 20 }}>New Row ID: </em>
+                                    <em className="fonts text-center" style={{ fontSize: 20 }}>{lastID}</em>
+                                </div>
+                            }
+
                         </div>
                         <div className="col-md-4" style={{ width: 'fit-content' }}>
-                            <div className="px-4 py-4 " style={{ backgroundColor: 'blue', height: 500, overflowY: 'auto' }}>
-                                <pre style={{ color: 'white', }}>{lastID ? JSON.stringify(newRow, null, 2) : 'The entered data row will be displayed here'}</pre>
+                            <div className="px-4 py-4 mt-4" style={{ backgroundColor: '#FFF', height: 500, overflowY: 'auto' }}>
+                                <pre style={{ color: '#0000FF', fontWeight: 600 }}>{lastID ? JSON.stringify(newRow, null, 2) : '*** Entered row will displayed here ***'}</pre>
                             </div>
                         </div>
                     </div>
