@@ -171,9 +171,9 @@ const InsertForm = () => {
     };
 
     return (
-        <div className="justify-content-center container mb-5">
+        <div className="justify-content-center container mb-5" style={{width: 'fit-content'}}>
             <form onSubmit={handleSubmit} className="mb-5 mt-5">
-                <div className=" mt-5 justify-content-center px-4 py-4">
+                <div className=" mt-5 px-5 py-3">
                     <div className="row justify-content-center">
                         <div className="col-md-4" style={{ width: 'fit-content' }}>
                             <Input
@@ -287,9 +287,9 @@ const InsertForm = () => {
                                 <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Fire Treated</label>
                             </div>
                             <div className="row justify-content-center">
-                                <button type="submit" value="submit" className="btn btn-submit-light-large mt-5 fonts" style={{ fontSize: 20, width: 150 }}>Submit</button>
+                                <button type="submit" value="submit" className="btn btn-submit-light-large mt-5 fonts" style={{ fontSize: 20, width: 100 }}>Submit</button>
                                 <button value="clear" className="btn btn-secondary mt-5 ms-2 fonts" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>
-                                <button value="clear" className="btn btn-submit-light-small-outline mt-5 ms-2 fonts" style={{ fontSize: 20, width: 100 }} onClick={handleClearForm}>Print</button>
+                                <button value="clear" className="btn btn-submit-light-small-outline mt-5 ms-2 fonts" style={{ fontSize: 20, width: 90 }} onClick={handleClearForm}>Print</button>
 
                             </div>
                             {
@@ -302,7 +302,7 @@ const InsertForm = () => {
 
                         </div>
                         <div className="col-md-4" style={{ width: 'fit-content' }}>
-                            <div className="px-4 py-4 mt-4" style={{ backgroundColor: '#FFF', height: 500, overflowY: 'auto' }}>
+                            <div className="px-4 py-4 mt-4" style={{ backgroundColor: '#FFF', height: 400, overflowY: 'auto' }}>
                                 <pre style={{ color: '#0000FF', fontWeight: 600 }}>{lastID ? JSON.stringify(newRow, null, 2) : '*** Entered row will displayed here ***'}</pre>
                             </div>
                         </div>

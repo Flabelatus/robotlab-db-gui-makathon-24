@@ -8,7 +8,7 @@ const Input = forwardRef((props, ref) => {
             </label>
             <div className="fonts">
                 <input
-                    style={{ color: "#444", border: "1px solid blue", borderRadius: 8, height: 40, fontSize: 18, width: 250 }}
+                    style={{ color: "#444", border: "1px solid blue", borderRadius: 8, height: 40, fontSize: 18, width: 200 }}
                     type={props.type}
                     className={props.className}
                     ref={ref}
@@ -30,7 +30,7 @@ export const InputLong = forwardRef((props, ref) => {
             </label>
             <div className="">
                 <input
-                    style={{ color: "#444", border: "1px solid blue", borderRadius: 8, height: 50, fontSize: 18, width: 400 }}
+                    style={{ color: "#444", border: "1px solid blue", borderRadius: 8, height: 40, fontSize: 18, width: 300 }}
                     type={props.type}
                     className={props.className}
                     ref={ref}

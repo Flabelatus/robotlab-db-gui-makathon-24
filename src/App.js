@@ -16,10 +16,10 @@ function App() {
   return (
     <>
       <AppContext.Provider value={{}}>
-        <div>
+        <div style={{backgroundColor: 'blue', width: 'fit-content', padding: 10}}>
           <div>
             <AppBar></AppBar>
-            <div className='justify-content-center' style={{backgroundColor: 'blue'}}>
+            <div className='justify-content-center' >
               {alertMessage && (
                 <Alert
                   message={alertMessage}

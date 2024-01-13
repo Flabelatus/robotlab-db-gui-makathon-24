@@ -5,7 +5,7 @@ const Home = () => {
 
     return (
         <>
-            <div className="row justify-content-center" style={{ backgroundColor: "blue" }}>
+            <div className="row justify-content-center" style={{ backgroundColor: "blue", width: 'fit-content' }}>
                 <div>
                     <h1 className="fonts mt-5" style={{ color: 'white', fontSize: 45, fontWeight: 700, textAlign: 'center' }}>Manual Wood Intake From</h1>
                     <h5 className="text-center mb-5 fonts" style={{ color: 'white' }}> Robotlab Minor Makathon January 2024 </h5>
