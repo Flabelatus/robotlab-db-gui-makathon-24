@@ -111,12 +111,20 @@ const InsertForm = () => {
         }
         const buttonValue = event.nativeEvent.submitter.value;
         if (buttonValue === "submit") {
+
+            const headers = new Headers();
+            headers.append("Content-Type", "application/json");
+            headers.append("Access-Control-Allow-Origin", "https://robotlab-db-gui.onrender.com");
+            headers.append("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            headers.append("Access-Control-Allow-Headers", 'Content-Type, Authorization');
+            headers.append('Access-Control-Allow-Credentials', 'true');
+
             wood.is_fire_treated = fire;
             wood.is_planed = planed;
             wood.is_straight = str8;
             const requestOptions = {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: headers,
                 body: JSON.stringify(wood)
             }
 
@@ -138,7 +146,7 @@ const InsertForm = () => {
 
                 const historyRequestOptions = {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: headers,
                     body: JSON.stringify(payload)
                 }
 
