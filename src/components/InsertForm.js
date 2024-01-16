@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import Input, { InputLong } from "./Input";
 import { useOutletContext } from "react-router-dom";
+import ThreeDCube from "./3DView";
 
 const InsertForm = () => {
 
     const [fire, setFire] = useState(false);
     const [planed, setPlaned] = useState(false);
     const [str8, setStr8] = useState(true);
+
+    const [params, setParams] = useState({});
 
     const [wood, setWood] = useState({
         length: "",
@@ -123,39 +126,38 @@ const InsertForm = () => {
                 headers: headers,
                 body: JSON.stringify(wood)
             }
-
             try {
                 const response = await fetch(`https://robotlab-residualwood.onrender.com/wood`, requestOptions);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-
                 const data = await response.json();
                 setLastID(data.id);
                 setNewRow(data);
+                setParams({
+                    length: wood.length,
+                    width: wood.width,
+                    height: wood.height,
+                    color: wood.color
+                })
                 showAlert("New row created", "alert-success", 3000);
-
                 var payload = {
                     event: "Wood added to the Database",
                     wood_id: data.id
                 }
-
                 const historyRequestOptions = {
                     method: "POST",
                     headers: headers,
                     body: JSON.stringify(payload)
                 }
-
                 const historyResponse = await fetch(`https://robotlab-residualwood.onrender.com/history`, historyRequestOptions);
                 if (!historyResponse.ok) {
                     throw new Error(`HTTP error! Status: ${historyResponse.status}`);
                 }
-
                 setTimeout(() => {
                     handleRefreshPage();
                     resetWoodState();
                 }, 2000);
-
             } catch (error) {
                 console.error(error.message);
                 showAlert(error.message, "alert-danger", 3000);
@@ -170,147 +172,174 @@ const InsertForm = () => {
         }));
     };
 
+    const handlePrintRequest = () => {
+        const printRequestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        };
+
+        fetch(`http://10.0.0.9:8081/print/${lastID}`, printRequestOptions)
+            .then((response) => response.json())
+            .catch((error) => {
+                console.error(error.message);
+            })
+    };
+
     return (
-        <div className="justify-content-center container mb-5" style={{width: 'fit-content'}}>
-            <form onSubmit={handleSubmit} className="mb-5 mt-5">
-                <div className=" mt-5 px-5 py-3">
-                    <div className="row justify-content-center">
-                        <div className="col-md-4" style={{ width: 'fit-content' }}>
-                            <Input
-                                title="Length (mm) *"
-                                id="length"
-                                type="number"
-                                className="me-4"
-                                name="company-name"
-                                onChange={(e) => handleWoodDataChange("length", e.target.value)}
-                            />
-                            <Input
-                                title="Width (mm) *"
-                                id="width"
-                                type="number"
-                                className="me-4"
-                                name="width"
-                                onChange={(e) => handleWoodDataChange("width", e.target.value)}
-                            />
-                            <Input
-                                title="Height (mm) *"
-                                id="height"
-                                type="number"
-                                className="me-4"
-                                name="height"
-                                onChange={(e) => handleWoodDataChange("height", e.target.value)}
-                            />
-                            <Input
-                                title="Weight (grams) *"
-                                id="weight"
-                                type="number"
-                                className="me-4"
-                                name="weight"
-                                onChange={(e) => handleWoodDataChange("weight", e.target.value)}
-                            />
-                        </div>
-                        <div className="col-md-4 justify-content-end" style={{ width: 'fit-content' }}>
-                            <Input
-                                title="Color (r, g, b)"
-                                id="color"
-                                type="text"
-                                className="me-4"
-                                name="color"
-                                onChange={(e) => handleWoodDataChange("color", e.target.value)}
-                            />
-                            <Input
-                                title="Image Path"
-                                id="image"
-                                type="text"
-                                className="me-4"
-                                name="image"
-                                onChange={(e) => handleWoodDataChange("image", e.target.value)}
-                            />
-                            <Input
-                                title="Storage Location"
-                                id="storage"
-                                type="text"
-                                className="me-4"
-                                name="storage"
-                                onChange={(e) => handleWoodDataChange("storage_location", e.target.value)}
-                            />
-                            <Input
-                                title="Source"
-                                id="source"
-                                type="text"
-                                className="me-4"
-                                name="source"
-                                onChange={(e) => handleWoodDataChange("source", e.target.value)}
-                            />
-
-                        </div>
-                        <div className="col-md-4" style={{ width: 'fit-content' }}>
-                            <InputLong
-                                title="Info"
-                                id="info"
-                                type="text"
-                                className="me-4"
-                                name="info"
-                                onChange={(e) => handleWoodDataChange("info", e.target.value)}
-                            />
-                            <div className=" mt-5 text-center">
-                                <input
-                                    className="form-check-input checkbox-custom"
-                                    type="checkbox"
-                                    name="straight"
-                                    id="straight"
-                                    defaultChecked={true}
-                                    onChange={(e) => setStr8(e.target.checked)}
-
-                                ></input>
-                                <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Straight</label>
-
-                                <input
-                                    className="form-check-input checkbox-custom ms-4"
-                                    type="checkbox"
-                                    name="planed"
-                                    id="planed"
-                                    defaultChecked={false}
-                                    onChange={(e) => setPlaned(e.target.checked)}
-                                ></input>
-                                <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Planed</label>
-
-                                <input
-                                    className="form-check-input checkbox-custom ms-4"
-                                    type="checkbox"
-                                    name="fire"
-                                    id="fire"
-                                    defaultChecked={false}
-                                    onChange={(e) => setFire(e.target.checked)}
-
-                                ></input>
-                                <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Fire Treated</label>
-                            </div>
+        <>
+            <div className="container justify-content-center row px-0" style={{ backgroundColor: 'white', marginLeft: '6%', marginRight: '6%' }}>
+                <div className="justify-content-center container mb-0 px-5" style={{ width: 'fit-content' }}>
+                    <form onSubmit={handleSubmit} className="mb-2 mt-5">
+                        <div className=" mt-5 px-5 py-3">
                             <div className="row justify-content-center">
-                                <button type="submit" value="submit" className="btn btn-submit-light-large mt-5 fonts" style={{ fontSize: 20, width: 100 }}>Submit</button>
-                                <button value="clear" className="btn btn-secondary mt-5 ms-2 fonts" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>
-                                <button value="clear" className="btn btn-submit-light-small-outline mt-5 ms-2 fonts" style={{ fontSize: 20, width: 90 }} onClick={handleClearForm}>Print</button>
-
-                            </div>
-                            {
-                                lastID &&
-                                <div className="container mt-4 mb-2" style={{ backgroundColor: "#FFFF0060" }}>
-                                    <em className="fonts" style={{ fontSize: 20 }}>New Row ID: </em>
-                                    <em className="fonts text-center" style={{ fontSize: 20 }}>{lastID}</em>
+                                <div className="col-md-4" style={{ width: 'fit-content' }}>
+                                    <Input
+                                        title="Length (mm) *"
+                                        id="length"
+                                        type="number"
+                                        className="me-4"
+                                        name="company-name"
+                                        onChange={(e) => handleWoodDataChange("length", e.target.value)}
+                                    />
+                                    <Input
+                                        title="Width (mm) *"
+                                        id="width"
+                                        type="number"
+                                        className="me-4"
+                                        name="width"
+                                        onChange={(e) => handleWoodDataChange("width", e.target.value)}
+                                    />
+                                    <Input
+                                        title="Height (mm) *"
+                                        id="height"
+                                        type="number"
+                                        className="me-4"
+                                        name="height"
+                                        onChange={(e) => handleWoodDataChange("height", e.target.value)}
+                                    />
+                                    <Input
+                                        title="Weight (grams) *"
+                                        id="weight"
+                                        type="number"
+                                        className="me-4"
+                                        name="weight"
+                                        onChange={(e) => handleWoodDataChange("weight", e.target.value)}
+                                    />
                                 </div>
-                            }
+                                <div className="col-md-4 justify-content-end" style={{ width: 'fit-content' }}>
+                                    <Input
+                                        title="Color (r, g, b)"
+                                        id="color"
+                                        type="text"
+                                        className="me-4"
+                                        name="color"
+                                        onChange={(e) => handleWoodDataChange("color", e.target.value)}
+                                    />
+                                    <Input
+                                        title="Image Path"
+                                        id="image"
+                                        type="text"
+                                        className="me-4"
+                                        name="image"
+                                        onChange={(e) => handleWoodDataChange("image", e.target.value)}
+                                    />
+                                    <Input
+                                        title="Storage Location"
+                                        id="storage"
+                                        type="text"
+                                        className="me-4"
+                                        name="storage"
+                                        onChange={(e) => handleWoodDataChange("storage_location", e.target.value)}
+                                    />
+                                    <Input
+                                        title="Source"
+                                        id="source"
+                                        type="text"
+                                        className="me-4"
+                                        name="source"
+                                        onChange={(e) => handleWoodDataChange("source", e.target.value)}
+                                    />
+                                </div>
+                                <div className="col-md-4" style={{ width: 'fit-content' }}>
+                                    <InputLong
+                                        title="Info"
+                                        id="info"
+                                        type="text"
+                                        className="me-4"
+                                        name="info"
+                                        onChange={(e) => handleWoodDataChange("info", e.target.value)}
+                                    />
+                                    <div className=" mt-5 text-center">
+                                        <input
+                                            className="form-check-input checkbox-custom"
+                                            type="checkbox"
+                                            name="straight"
+                                            id="straight"
+                                            defaultChecked={true}
+                                            onChange={(e) => setStr8(e.target.checked)}
 
+                                        ></input>
+                                        <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Straight</label>
+
+                                        <input
+                                            className="form-check-input checkbox-custom ms-4"
+                                            type="checkbox"
+                                            name="planed"
+                                            id="planed"
+                                            defaultChecked={false}
+                                            onChange={(e) => setPlaned(e.target.checked)}
+                                        ></input>
+                                        <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Planed</label>
+
+                                        <input
+                                            className="form-check-input checkbox-custom ms-4"
+                                            type="checkbox"
+                                            name="fire"
+                                            id="fire"
+                                            defaultChecked={false}
+                                            onChange={(e) => setFire(e.target.checked)}
+
+                                        ></input>
+                                        <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Fire Treated</label>
+                                    </div>
+                                    <div className="row justify-content-center">
+                                        <button type="submit" value="submit" className="btn btn-submit-light-large mt-5 fonts" style={{ fontSize: 20, width: 100 }}>Submit</button>
+                                        <button value="clear" className="btn btn-secondary mt-5 ms-2 fonts" style={{ fontSize: 20, width: 150 }} onClick={handleClearForm}>Clear Forms</button>
+                                        <button value="clear" className="btn btn-submit-light-small-outline mt-5 ms-2 fonts" style={{ fontSize: 20, width: 90 }} onClick={handlePrintRequest}>Print</button>
+                                    </div>
+                                    {
+                                        lastID &&
+                                        <div className="container mt-4 mb-2" style={{ backgroundColor: "#FFFF0060" }}>
+                                            <em className="fonts" style={{ fontSize: 20 }}>New Row ID: </em>
+                                            <em className="fonts text-center" style={{ fontSize: 20 }}>{lastID}</em>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
                         </div>
-                        <div className="col-md-4" style={{ width: 'fit-content' }}>
-                            <div className="px-4 py-4 mt-4" style={{ backgroundColor: '#FFF', height: 400, overflowY: 'auto' }}>
-                                <pre style={{ color: '#0000FF', fontWeight: 600 }}>{lastID ? JSON.stringify(newRow, null, 2) : '*** Entered row will displayed here ***'}</pre>
+                    </form >
+                </div >
+                <div className="justify-content-center container mb-5">
+                    <div className="mb-3">
+                        <h1 className="fonts" style={{ color: '#8888FF', fontSize: 35, fontWeight: 700, textAlign: 'center' }}>Preview</h1>
+                        <div className="row justify-content-center mt-4 py-5" style={{ borderRadius: 8, border: 'solid 1px blue' }}>
+                            <div className="col-md-3 container- py-2">
+                                <div style={{ backgroundColor: '#FFF', height: 400, overflowY: 'auto' }}>
+                                    <pre style={{ color: '#0000FF', fontWeight: 600 }}>{lastID ? JSON.stringify(newRow, null, 2) : 'Entered row displays here'}</pre>
+                                </div>
+                            </div>
+                            <div className="col-md-8 mt-5 d-flex- justify-content-center align-items-center" style={{width: 'fit-content'}}>
+                                <ThreeDCube width={params.width} length={params.length} height={params.height} color={`rgb(${params.color})`} />
                             </div>
                         </div>
                     </div>
                 </div>
-            </form >
-        </div >
+
+
+            </div>
+
+        </>
     );
-}
+};
 
 export default InsertForm;
