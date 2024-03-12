@@ -32,9 +32,20 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.btn-submit-dark-small {
+  background-color: #0000ff;
+  color: #fff;
+}
+
+.btn-submit-dark-small:hover {
+  background-color: #0000ff90;
+  color: #fff;
 }
 
 .btn-submit-light-small {
@@ -97,10 +108,10 @@
 }
 
 .fonts {
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
 .fonts-2 {
-  font-family:'Courier New', Courier, monospace;
+  font-family: 'Courier New', Courier, monospace;
   font-weight: 600;
 }

@@ -14,18 +14,18 @@ const ThreeDCube = ({ length, width, height, color }) => {
         camera.lookAt(0, 0, 0);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth / 2.2 , window.innerHeight / 2.1);
+        renderer.setSize(window.innerWidth / 1.9, window.innerHeight / 1.9);
         renderer.setClearColor(0xffffff);
         cubeRef.current.appendChild(renderer.domElement);
 
-        const gridHelper = new THREE.GridHelper(35, 40, 0x0000FF, 0xBBBBFF); 
+        const gridHelper = new THREE.GridHelper(35, 40, 0x0000FF, 0xBBBBFF);
         scene.add(gridHelper);
 
-        const ambientLight = new THREE.AmbientLight(0x606060); 
+        const ambientLight = new THREE.AmbientLight(0x606060);
         scene.add(ambientLight);
 
         const directionalLight1 = new THREE.DirectionalLight(0xffffff, 4);
-        directionalLight1.position.set(0, 2, 1); 
+        directionalLight1.position.set(0, 2, 1);
 
         const directionalLight2 = new THREE.DirectionalLight(0xffffff, 3);
         directionalLight2.position.set(1, 1, -1);
@@ -34,8 +34,8 @@ const ThreeDCube = ({ length, width, height, color }) => {
         scene.add(directionalLight2);
 
         const geometry = new THREE.BoxGeometry(length / 60, height / 60, width / 60);
-        var color_ = new THREE.Color(color); 
-        var material = new THREE.MeshStandardMaterial({ color: color_});
+        var color_ = new THREE.Color(color);
+        var material = new THREE.MeshStandardMaterial({ color: color_ });
         const cube = new THREE.Mesh(geometry, material);
         cube.position.set(0, height / 100, 0);
         scene.add(cube);
@@ -50,7 +50,7 @@ const ThreeDCube = ({ length, width, height, color }) => {
 
         const animate = () => {
             requestAnimationFrame(animate);
-            controls.update(); 
+            controls.update();
             renderer.render(scene, camera);
         };
 
@@ -63,7 +63,7 @@ const ThreeDCube = ({ length, width, height, color }) => {
             }
             renderer.dispose();
         };
-    }, [length, width, height, color]); 
+    }, [length, width, height, color]);
 
     return <div ref={cubeRef} />;
 };
