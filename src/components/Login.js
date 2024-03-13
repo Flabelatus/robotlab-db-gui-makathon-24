@@ -5,6 +5,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 export const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const { devMode } = useOutletContext();
     const { setLogged } = useOutletContext()
     const navigate = useNavigate();
 
@@ -14,6 +15,11 @@ export const Login = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        var url = `${process.env.REACT_APP_BACKEND}`;
+        if (devMode) {
+            url = `https://robotlab-residualwood-dev.onrender.com`;
+        };
 
         var payload = {
             username: username,
@@ -27,7 +33,7 @@ export const Login = () => {
             body: JSON.stringify(payload)
         };
 
-        fetch(`${process.env.REACT_APP_BACKEND}/login`, requestOptions)
+        fetch(`${url}/login`, requestOptions)
             .then((response) => response.json())
             .then((data) => {
                 if (data.access_token) {

@@ -8,6 +8,7 @@ const InsertForm = () => {
     const [fire, setFire] = useState(false);
     const [planed, setPlaned] = useState(false);
     const [str8, setStr8] = useState(true);
+    const { devMode } = useOutletContext();
 
     const [params, setParams] = useState({});
 
@@ -43,24 +44,6 @@ const InsertForm = () => {
             setAlertMessage("");
             setAlertClassName("");
         }, timeout);
-    };
-
-    const resetWoodState = () => {
-        setWood({
-            length: "",
-            width: "",
-            height: "",
-            name: "",
-            weight: "",
-            color: "",
-            image: "",
-            storage_location: "",
-            source: "",
-            info: "",
-            is_planed: false,
-            is_straight: true,
-            is_fire_treated: false
-        });
     };
 
     useEffect(() => {
@@ -129,7 +112,11 @@ const InsertForm = () => {
                 body: JSON.stringify(wood)
             }
             try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND}/wood`, requestOptions);
+                var url = `${process.env.REACT_APP_BACKEND}`;
+                if (devMode) {
+                    url = `https://robotlab-residualwood-dev.onrender.com`;
+                }
+                const response = await fetch(`${url}/wood`, requestOptions);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
@@ -152,13 +139,13 @@ const InsertForm = () => {
                     headers: headers,
                     body: JSON.stringify(payload)
                 }
-                const historyResponse = await fetch(`${process.env.REACT_APP_BACKEND}/history`, historyRequestOptions);
+                const historyResponse = await fetch(`${url}/history`, historyRequestOptions);
                 if (!historyResponse.ok) {
                     throw new Error(`HTTP error! Status: ${historyResponse.status}`);
                 }
                 setTimeout(() => {
                     handleRefreshPage();
-                    resetWoodState();
+                    // resetWoodState();
                 }, 2000);
             } catch (error) {
                 console.error(error.message);
@@ -299,7 +286,7 @@ const InsertForm = () => {
                                             onChange={(e) => setStr8(e.target.checked)}
 
                                         ></input>
-                                        <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Straight</label>
+                                        <label className="fonts" style={{ fontSize: 18, marginLeft: 10, fontWeight: 400, color: "blue" }}>Straight</label>
 
                                         <input
                                             className="form-check-input checkbox-custom ms-4"
@@ -320,7 +307,7 @@ const InsertForm = () => {
                                             onChange={(e) => setFire(e.target.checked)}
 
                                         ></input>
-                                        <label className="fonts" style={{ fontSize: 20, marginLeft: 10, fontWeight: 400, color: "blue" }}>Fire Treated</label>
+                                        <label className="fonts" style={{ fontSize: 18, marginLeft: 10, fontWeight: 400, color: "blue" }}>Fire Treated</label>
                                     </div>
                                     <div className="row justify-content-center">
                                         <button type="submit" value="submit" className="btn btn-submit-light-large mt-5 fonts px-4" style={{ fontSize: 16, width: 'fit-content' }}>Submit</button>
@@ -330,7 +317,7 @@ const InsertForm = () => {
                                     {
                                         lastID &&
                                         <div className="container mt-4 mb-2" style={{ backgroundColor: "#FFFF0060" }}>
-                                            <em className="fonts" style={{ fontSize: 20 }}>New Row ID: </em>
+                                            <em className="fonts" style={{ fontSize: 18 }}>New Row ID: </em>
                                             <em className="fonts text-center" style={{ fontSize: 20 }}>{lastID}</em>
                                         </div>
                                     }
@@ -342,14 +329,22 @@ const InsertForm = () => {
                 <div className="justify-content-center container- px-5 mb-5" style={{ height: 'fit-content' }}>
                     <div className="mb-3">
                         <h1 className="fonts" style={{ color: '#8888FF', fontSize: 35, fontWeight: 700, textAlign: 'start' }}>Model preview</h1>
-                        <div className="row justify-content-center mt-4 py-5" style={{ borderRadius: 8, border: 'solid 1px blue', height: 'fit-content' }}>
+                        <div className="row justify-content-center mt-4 py-5" style={{ borderRadius: 8, border: 'solid 0px blue', height: 'fit-content', boxShadow: "1px 1px 5px #ccc" }}>
                             <div className="col-md-3 container- py-2">
-                                <div style={{ backgroundColor: '#FFF', height: 'fit-content', overflowY: 'auto' }}>
-                                    <pre style={{ color: '#0000FF', fontWeight: 600 }}>{lastID ? JSON.stringify(newRow, null, 2) : 'Entered row displays here'}</pre>
+                                <div className="px-2 py-3" style={{ backgroundColor: '#fff', height: 'fit-content', overflowY: 'auto', borderRadius: 8 }}>
+                                    <pre style={{ color: '#0000ff', fontWeight: 500, fontSize: 12 }}>{lastID ? JSON.stringify(newRow, null, 2) : 'Entered row displays here'}</pre>
                                 </div>
                             </div>
-                            <div className="col-md-10 mt-5 d-flex- justify-content-center align-items-center" style={{ width: 'fit-content' }}>
+                            <div className="col-md-10 mt-2 d-flex- justify-content-center align-items-center" style={{ width: 'fit-content' }}>
                                 <ThreeDCube width={params.width} length={params.length} height={params.height} color={`rgb(${params.color})`} />
+
+                                {/* <p className="badge bg-secondary fonts me-2 ms-5 mt-4">{wood.name}</p>
+                                <p className="badge bg-secondary fonts me-2 mt-4">length: {wood.length} mm</p>
+                                <p className="badge bg-secondary fonts me-2 mt-4">width: {wood.width} mm</p>
+                                <p className="badge bg-secondary fonts me-2 mt-4">Height: {wood.height} mm</p>
+                                <p className="badge bg-secondary fonts me-2 mt-4">Carbon footprint: € {wood.name}</p>
+                                <p className="badge bg-secondary fonts me-2 mt-4">Carbon footprint: € {wood.name}</p> */}
+
                             </div>
                         </div>
                     </div>

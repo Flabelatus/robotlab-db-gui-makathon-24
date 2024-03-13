@@ -1,9 +1,18 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const ThreeDCube = ({ length, width, height, color }) => {
     const cubeRef = useRef();
+    const [reset, setReset] = useState(false);
+
+    const toggleReset = () => {
+        if (!reset) {
+            setReset(true);
+        } else {
+            setReset(false);
+        };
+    };
 
     useEffect(() => {
 
@@ -43,7 +52,7 @@ const ThreeDCube = ({ length, width, height, color }) => {
         const controls = new OrbitControls(camera, renderer.domElement);
 
         controls.enableDamping = true;
-        controls.dampingFactor = 0.08;
+        controls.dampingFactor = 0.25;
         controls.screenSpacePanning = false;
         controls.minDistance = 5;
         controls.maxDistance = 150;
@@ -63,9 +72,12 @@ const ThreeDCube = ({ length, width, height, color }) => {
             }
             renderer.dispose();
         };
-    }, [length, width, height, color]);
+    }, [length, width, height, color, reset]);
 
-    return <div ref={cubeRef} />;
+    return <div className='container' style={{ border: '1px solid #ccc' }}>
+        <button className='btn btn-dark fonts' onClick={toggleReset}>Default view</button>
+        <div ref={cubeRef} />
+    </div>;
 };
 
 export default ThreeDCube;
