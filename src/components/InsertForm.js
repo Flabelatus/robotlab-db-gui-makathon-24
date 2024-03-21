@@ -408,23 +408,18 @@ const InsertForm = () => {
                                             </div>
                                         </div>}
                                     </div>
-                                    <div className="col mt-5 ms-5 py-5 px-4" style={{ backgroundColor: "#eef", borderRadius: 8, height: 'fit-content' }}>
-                                        <h6>Carbon Footprint: € {rawImpactData.footprint}</h6>
-                                        <h6>Eco Costs: € {rawImpactData.eco_costs}</h6>
-                                        <h6>Eco Toxicity: € {rawImpactData.eco_toxicity}</h6>
-                                        <h6>Resource Deplition Costs: € {rawImpactData.footprint}</h6>
-                                        <h6>Total Footprint: € {rawImpactData.footprint}</h6>
-                                        <br />
-                                        {/* <p>Resource Deplition Costs: € {rawImpactData.footprint}</p> */}
-                                        <label>Source: Idemat2024</label>
-
-                                    </div>
-
+                                    {showPie &&
+                                        <div className="col mt-5 ms-5 py-5 px-4" style={{ backgroundColor: "#eef", borderRadius: 8, height: 'fit-content' }}>
+                                            <h6>Carbon Footprint: € {rawImpactData.footprint}</h6>
+                                            <h6>Eco Costs: € {rawImpactData.eco_costs}</h6>
+                                            <h6>Eco Toxicity: € {rawImpactData.eco_toxicity}</h6>
+                                            <h6>Resource Deplition Costs: € {rawImpactData.footprint}</h6>
+                                            <h6>Total Footprint: € {rawImpactData.footprint}</h6>
+                                            <br />
+                                            <label>Source: Idemat2024</label>
+                                        </div>}
                                 </div>
-
-
                             </div>
-
                         </div>
                     </div>
                 </div>
