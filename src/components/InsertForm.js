@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Input, { InputLong } from "./Input";
 import { useOutletContext } from "react-router-dom";
 import ThreeDCube from "./3DView";
+import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer, Text } from 'recharts';
 
 const InsertForm = () => {
 
@@ -10,6 +11,13 @@ const InsertForm = () => {
     const [str8, setStr8] = useState(true);
     const { devMode } = useOutletContext();
 
+    const [impactData, setImpactData] = useState([]);
+
+    const [showPie, setShowPie] = useState(false);
+
+    const [rawImpactData, setRawImpactData] = useState({});
+
+    const COLORS = ["#00f", "#00c", "#88f", "#aaF"]
     const [params, setParams] = useState({});
 
     const [wood, setWood] = useState({
@@ -57,7 +65,7 @@ const InsertForm = () => {
             return false;
         });
         setIsAnyFieldNotEmpty(anyFieldNotEmpty);
-    }, [refresh, lastID, wood]);
+    }, [refresh, lastID, wood, impactData]);
 
     const handleRefreshPage = () => {
         if (!refresh) {
@@ -130,10 +138,35 @@ const InsertForm = () => {
                     color: wood.color
                 })
                 showAlert("New row created", "alert-success", 3000);
+
+                const impactResponse = await fetch(`${url}/impact/wood/${data.id}`, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" }
+                })
+                if (!impactResponse.ok) {
+                    throw new Error(`HTTP error! Status: ${impactResponse.status}`);
+                }
+                const impactDat = await impactResponse.json();
+                setRawImpactData(impactDat);
+
+                impactDat.carbon_footprint = parseFloat(impactDat.carbon_footprint);
+                impactDat.eco_costs = parseFloat(impactDat.eco_costs);
+                impactDat.eco_toxicity = parseFloat(impactDat.eco_toxicity);
+                impactDat.footprint = parseFloat(impactDat.footprint);
+                impactDat.resource_depletion = parseFloat(impactDat.resource_depletion);
+
+                const { human_health, process: productionProcess, codename, material, wood_id, id, ...newImpact } = impactDat;
+
+                var result = Object.entries(newImpact).map(([key, value]) => ({ name: key, value: value }));
+                console.log(result);
+                setImpactData(result);
+                setShowPie(true);
+
+                // History
                 var payload = {
                     event: "Wood added to the Database",
                     wood_id: data.id
-                }
+                };
                 const historyRequestOptions = {
                     method: "POST",
                     headers: headers,
@@ -337,15 +370,61 @@ const InsertForm = () => {
                             </div>
                             <div className="col-md-10 mt-2 d-flex- justify-content-center align-items-center" style={{ width: 'fit-content' }}>
                                 <ThreeDCube width={params.width} length={params.length} height={params.height} color={`rgb(${params.color})`} />
+                                <div className="row px-4 py-4 ms-4 mt-4" style={{ border: "0px solid #ccc", width: 'fit-content', borderRadius: 16 }}>
+                                    <div className="col">
+                                        {showPie &&
+                                            <div>
+                                                <h3 className="mt-4 ms-4" style={{ color: "#00f" }}>Impact Data</h3>
+                                                <h5 className=" ms-4" style={{ color: "#55f" }}>{rawImpactData.process}</h5>
+                                            </div>
+                                        }
 
-                                {/* <p className="badge bg-secondary fonts me-2 ms-5 mt-4">{wood.name}</p>
-                                <p className="badge bg-secondary fonts me-2 mt-4">length: {wood.length} mm</p>
-                                <p className="badge bg-secondary fonts me-2 mt-4">width: {wood.width} mm</p>
-                                <p className="badge bg-secondary fonts me-2 mt-4">Height: {wood.height} mm</p>
-                                <p className="badge bg-secondary fonts me-2 mt-4">Carbon footprint: € {wood.name}</p>
-                                <p className="badge bg-secondary fonts me-2 mt-4">Carbon footprint: € {wood.name}</p> */}
+                                        {showPie && <div className="col-md-6 mt-5">
+                                            <div style={{ width: '350px', height: "350px", minWidth: "250px", minHeight: "250px" }}>
+                                                <ResponsiveContainer>
+                                                    <PieChart>
+                                                        <Pie
+                                                            dataKey="value"
+                                                            nameKey="name"
+                                                            data={impactData}
+                                                            cx="50%"
+                                                            cy="50%"
+                                                            outerRadius={125}
+                                                            stroke='none'
+                                                            fill="#8884d8"
+                                                        >
+                                                            <Cell key={`cell-0`} fill={COLORS[0]} />
+                                                            <Cell key={`cell-1`} fill={COLORS[1]} />
+                                                            <Cell key={`cell-2`} fill={COLORS[2]} />
+                                                            <Cell key={`cell-2`} fill={COLORS[3]} />
+
+                                                        </Pie>
+
+                                                        <Tooltip formatter={(value) => `€${value.toFixed(2)}`} />
+                                                        <Legend />
+                                                    </PieChart>
+                                                </ResponsiveContainer>
+                                                {/* <label>Total Cost: </label> */}
+                                            </div>
+                                        </div>}
+                                    </div>
+                                    <div className="col mt-5 ms-5 py-5 px-4" style={{ backgroundColor: "#eef", borderRadius: 8, height: 'fit-content' }}>
+                                        <h6>Carbon Footprint: € {rawImpactData.footprint}</h6>
+                                        <h6>Eco Costs: € {rawImpactData.eco_costs}</h6>
+                                        <h6>Eco Toxicity: € {rawImpactData.eco_toxicity}</h6>
+                                        <h6>Resource Deplition Costs: € {rawImpactData.footprint}</h6>
+                                        <h6>Total Footprint: € {rawImpactData.footprint}</h6>
+                                        <br />
+                                        {/* <p>Resource Deplition Costs: € {rawImpactData.footprint}</p> */}
+                                        <label>Source: Idemat2024</label>
+
+                                    </div>
+
+                                </div>
+
 
                             </div>
+
                         </div>
                     </div>
                 </div>
