@@ -5,7 +5,7 @@ import Alert from './components/Alert'
 import { AppBar } from './components/AppBar';
 import React, { useCallback, useEffect, useState } from 'react';
 import Footer from './components/Footer';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 export const AppContext = React.createContext();
 

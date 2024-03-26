@@ -15,7 +15,7 @@ export const AppBar = () => {
             headers: {
                 "Authorization": "Bearer " + jwtToken,
                 "Content-Type": "application/json",
-                "X-CSRF-TOKEN": Cookie.get("csrf_access_token")
+                // "X-CSRF-TOKEN": Cookie.get("csrf_access_token")
             },
 
             credentials: 'include'
