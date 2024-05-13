@@ -361,8 +361,8 @@ const InsertForm = () => {
                 </div >
                 <div className="justify-content-center container- px-5 mb-5" style={{ height: 'fit-content' }}>
                     <div className="mb-3">
-                        <h1 className="fonts" style={{ color: '#8888FF', fontSize: 35, fontWeight: 700, textAlign: 'start' }}>Model preview</h1>
-                        <div className="row justify-content-center mt-4 py-5" style={{ borderRadius: 8, border: 'solid 0px blue', height: 'fit-content', boxShadow: "1px 1px 5px #ccc" }}>
+                        <h1 className="fonts" style={{ color: '#8888FF', fontSize: 20, fontWeight: 700, textAlign: 'start' }}>Model preview</h1>
+                        <div className="row justify-content-center mt-4 py-5" style={{ borderRadius: 8, border: 'solid 0px blue', height: 'fit-content'  }}>
                             <div className="col-md-3 container- py-2">
                                 <div className="px-2 py-3" style={{ backgroundColor: '#fff', height: 'fit-content', overflowY: 'auto', borderRadius: 8 }}>
                                     <pre style={{ color: '#0000ff', fontWeight: 500, fontSize: 12 }}>{lastID ? JSON.stringify(newRow, null, 2) : 'Entered row displays here'}</pre>

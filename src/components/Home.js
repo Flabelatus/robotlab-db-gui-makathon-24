@@ -1,19 +1,12 @@
-import InsertForm from "./InsertForm";
+import { Card, CardBody, Container } from "reactstrap";
+import CoverImage from './../images/cover.jpg';
 
-
-const Home = () => {
-
+export const Home = () => {
     return (
-        <>
-            <div className="row justify-content-center" style={{ backgroundColor: "#0000ff", width: 'fit-content' }}>
-                <div>
-                    <h1 className="fonts mt-5 mb-5" style={{ color: 'white', fontSize: 45, fontWeight: 700, textAlign: 'center' }}>Manual wood intake dashboard</h1>
-                    {/* <h5 className="text-center mb-5 fonts" style={{ color: 'white' }}> Robotlab </h5> */}
-                </div>
-                <InsertForm />
-            </div>
-        </>
+        <div className="row justify-content-center">
+           <div className="px-5 py-5"  style={{ height: "100vh", backgroundColor: '#ffffffcc', backgroundImage: `url(${CoverImage})`, backgroundSize: 'cover', backgroundBlendMode: 'overlay', borderRadius: 10 }}>
+           <h1 className="fonts mt-5 mb-5 text-center" style={{ color: 'blue', fontSize: 45, fontWeight: 700, textAlign: 'center' }}>Welcome to Robot Lab</h1>
+           </div>
+        </div>
     );
 }
-
-export default Home;

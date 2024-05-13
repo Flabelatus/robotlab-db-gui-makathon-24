@@ -3,12 +3,12 @@ import { forwardRef } from "react";
 const Input = forwardRef((props, ref) => {
     return (
         <div className="mb-3 fonts">
-            <label htmlFor={props.name} className="form-label" style={{ fontSize: 18, color: "blue", fontWeight: 400 }}>
+            <label htmlFor={props.name} className="form-label" style={{ fontSize: 14, color: "blue", fontWeight: 400 }}>
                 {props.title}
             </label>
             <div className="fonts">
                 <input
-                    style={{ color: "#2222FF", border: "0px solid blue", borderRadius: 8, height: 40, fontSize: 15, width: 200, backgroundColor: '#eee' }}
+                    style={{ color: "#2222FF", border: "0px solid blue", borderRadius: 8, height: 40, fontSize: 14, width: 200, backgroundColor: '#eee' }}
                     type={props.type}
                     className={props.className}
                     placeholder={props.placeholder}
@@ -26,12 +26,12 @@ const Input = forwardRef((props, ref) => {
 export const InputLong = forwardRef((props, ref) => {
     return (
         <div className="mb-3 fonts" >
-            <label htmlFor={props.name} className="form-label" style={{ fontSize: 18, color: "blue", fontWeight: 400 }}>
+            <label htmlFor={props.name} className="form-label" style={{ fontSize: 14, color: "blue", fontWeight: 400 }}>
                 {props.title}
             </label>
             <div className="">
                 <textarea
-                    style={{ color: "#2222FF", border: "0px solid blue", borderRadius: 8, height: 150, fontSize: 15, width: 300, backgroundColor: "#eee" }}
+                    style={{ color: "#2222FF", border: "0px solid blue", borderRadius: 8, height: 150, fontSize: 14, width: 300, backgroundColor: "#eee" }}
                     type={props.type}
                     className={props.className}
                     ref={ref}

@@ -108,10 +108,18 @@
 }
 
 .fonts {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
 .fonts-2 {
   font-family: 'Courier New', Courier, monospace;
   font-weight: 600;
+}
+
+.side-options {
+  background-color: #4444ff;
+}
+
+.side-options:hover {
+  background-color: #0000ff;
 }

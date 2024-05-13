@@ -4,8 +4,10 @@ import './index.css';
 import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './components/ErrorPage';
-import Home from './components/Home';
+import IntakeHome from './components/IntakeHome';
 import { Login } from './components/Login';
+import { Home } from './components/Home';
+import { DBPage } from './components/DBViewer';
 
 
 const router = createBrowserRouter([
@@ -17,6 +19,8 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       // { path: "/register", element: <Register /> },
       { path: "/login", element: <Login /> },
+      { path: "/intake", element: <IntakeHome /> },
+      { path: "/data-viewer", element: <DBPage /> }
     ]
   }
 ]);

@@ -51,9 +51,9 @@ export const Login = () => {
 
     return (
 
-        <div className="row justify-content-center" style={{ height: "70vh", backgroundColor: "#0000ff" }}>
+        <div className="row justify-content-center" style={{ height: "100vh", minHeight: 600, backgroundColor: "#0000ff" }}>
             <div className="justify-content-center mb-0 px-5" style={{ width: 'fit-content' }}>
-                <div className="col-md-4 offset-md-3">
+                <div className="col-md-4 ">
                     <button
                         className="btn btn-submit-light-small mt-5 mb-5"
                         style={{ width: 'fit-content', height: 'fit-content', marginLeft: '3%' }}
