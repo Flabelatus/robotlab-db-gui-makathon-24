@@ -51,17 +51,18 @@ export const Login = () => {
 
     return (
 
-        <div className="row justify-content-center" style={{ height: "100vh", minHeight: 600, backgroundColor: "#0000ff" }}>
-            <div className="justify-content-center mb-0 px-5" style={{ width: 'fit-content' }}>
-                <div className="col-md-4 ">
-                    <button
-                        className="btn btn-submit-light-small mt-5 mb-5"
-                        style={{ width: 'fit-content', height: 'fit-content', marginLeft: '3%' }}
-                        onClick={handleGoBack}
-                    >
-                        Go Back
-                    </button>
-
+        <div className="row justify-content-center py-" style={{ height: "100vh", minHeight: 600, backgroundColor: "#5500ff" }}>
+            
+            <div className="justify-content-center mb-0 px-5 mt-5" style={{ width: 'fit-content' }}>
+            <button
+                className="btn btn-submit-light-small mt-5 mb-3"
+                style={{ width: 'fit-content', height: 'fit-content', marginLeft: '3%', fontSize: 14 }}
+                onClick={handleGoBack}
+            >
+                Go Back
+            </button>
+                <div className="col-md-3 offset-0 ">
+                    
                     <form className="container px-5 py-5" style={{ backgroundColor: 'white', width: 'fit-contnet' }} onSubmit={handleSubmit}>
                         <Input
                             className="container text-cetner"
@@ -80,7 +81,7 @@ export const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <div className="row px-5">
-                            <button className="btn btn-submit-dark-small mt-4" >
+                            <button className="btn btn-submit-dark-small mt-4" style={{fontSize: 14, fontWeight: 700}}>
                                 Subimt
                             </button>
                         </div>

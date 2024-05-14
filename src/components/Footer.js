@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
     return (
         <>
-            <div className="row" style={{ backgroundColor: 'blue' }}>
+            <div className="row" style={{ backgroundColor: '#50f' }}>
                 <footer className="text-center container-fluid py-2">
                     <div className="row">
                         <div className="col mt-4">

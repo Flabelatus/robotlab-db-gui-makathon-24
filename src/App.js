@@ -22,10 +22,10 @@ function App() {
   const jwtToken = sessionStorage.getItem("jwtToken");
 
   useEffect(() => {
-    if (jwtToken === "") {
+    if (jwtToken === 'null') {
       navigate('/login');
+      return;
     };
-    console.log(jwtToken);
   }, [jwtToken, logged, devMode]);
 
   const handleSwitchMode = () => {
@@ -38,31 +38,30 @@ function App() {
 
   return (
     <>
-      <AppContext.Provider value={{ jwtToken, setLogged }}>
-        <div style={{ backgroundColor: '#0000ff', width: 'fit-content', padding: 10 }}>
+      <AppContext.Provider value={{ jwtToken, logged, setLogged }}>
+        <div style={{ backgroundColor: '#5500ff', width: 'fit-content', padding: 10 }}>
           <div>
 
             <Row className='justify-content-center' >
               <Col sm={12} md={3}>
                 <div className="mt-4 mb-5">
-                  <Link to='/'><img src={Logo} alt="Logo" style={{ maxWidth: '100%' }} /></Link>
+                  <Link to='/'><img src={Logo} alt="Logo" style={{ maxWidth: '50%' }} /></Link>
                 </div>
-                <Card style={{ height: 'fit-content', border: '0px solid #ccc', backgroundColor: '#44f', boxShadow: '1px 1px 15px #22a' }} className='bg-transparent-'>
+                <Card style={{ height: 'fit-content', border: '0px solid #ccc', backgroundColor: '#fff', boxShadow: '1px 1px 15px #22a', borderRadius: 8 }} className='bg-transparent-'>
                   <CardBody>
-                    <Link to='/' className='btn btn- fonts text-start mb-5 side-options' style={{ fontSize: 14, fontWeight: 700, color: '#fff', width: 200 }}>Home</Link>
+                    <Link to='/' className='btn btn- fonts text-start mb-5 side-options' style={{ fontSize: 14, fontWeight: 700, width: 200 }}>Home</Link>
 
-                    {jwtToken !== '' && <Link to='/modify' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 700, width: 200, color: '#fff' }}>Modify data</Link>}
-                    {jwtToken !== '' && <Link to='/intake' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 700, width: 200, color: '#fff' }}>Intake dashboard</Link>}
-                    {jwtToken !== '' && <Link to='/modify' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 700, width: 200, color: '#fff' }}>Material passports</Link>}
+                    {jwtToken !== 'null' && <Link to='/intake' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Manual Intake dashboard</Link>}
+                    {jwtToken !== 'null' && <Link to='/intake-digital' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Digital Intake dashboard</Link>}
+                    {jwtToken !== 'null' && <Link to='/materials' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Material passports</Link>}
 
-                    <Link to='/data-viewer' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 700, width: 200, color: '#fff' }}>Wood database</Link><hr style={{ color: '#fff' }} />
+                    <Link to='/data-viewer' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Wood database</Link><hr style={{ color: '#555' }} />
 
-                    <a href='https://robotlab-residualwood.onrender.com/api-docs' rel="noopener noreferrer" target="_blank" className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 700, width: 200, color: '#fff' }}>API</a><br />
-                    <a href="https://uva-hva.gitlab.host/robotlab/wood/cw4.0" rel="noopener noreferrer" target="_blank" className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 700, width: 200, color: '#fff' }}>Project repository</a><hr style={{ color: '#fff' }} />
-                    
+                    <a href='https://robotlab-residualwood.onrender.com/api-docs' rel="noopener noreferrer" target="_blank" className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>API</a><br />
+                    <a href="https://uva-hva.gitlab.host/robotlab/wood/cw4.0" rel="noopener noreferrer" target="_blank" className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Project repository</a><hr style={{ color: '#555' }} />
 
-                    {!devMode ? <button className="btn btn- fonts text-start mb-4 side-options" style={{ fontSize: 14, fontWeight: 700, width: 200, color: '#fff' }} onClick={handleSwitchMode}>Switch to dev mode</button> :
-                      <button className="btn btn- fonts text-start mb-4 side-options" style={{ fontSize: 14, fontWeight: 700, width: 200, color: '#fff' }} onClick={handleSwitchMode}>Switch to production mode</button>}
+                    {!devMode ? <button className="btn btn- fonts text-start mb-4 side-options" style={{ fontSize: 14, fontWeight: 600, width: 200 }} onClick={handleSwitchMode}>Switch to dev mode</button> :
+                      <button className="btn btn- fonts text-start mb-4 side-options" style={{ fontSize: 14, fontWeight: 600, width: 200 }} onClick={handleSwitchMode}>Switch to production mode</button>}
                   </CardBody>
                 </Card>
               </Col>
@@ -86,7 +85,7 @@ function App() {
                     </div>
                   </div>
                   <div className='row justify-content-center' style={{minHeight: 600}}>
-                    <Outlet context={{ setAlertMessage, setAlertClassName, setLogged, devMode, setDevMode }}></Outlet>
+                    <Outlet context={{ setAlertMessage, setAlertClassName, setLogged, devMode, setDevMode, jwtToken }}></Outlet>
                   </div>
                   <Footer />
                 </div>

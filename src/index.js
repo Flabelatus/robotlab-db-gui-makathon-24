@@ -8,6 +8,8 @@ import IntakeHome from './components/IntakeHome';
 import { Login } from './components/Login';
 import { Home } from './components/Home';
 import { DBPage } from './components/DBViewer';
+import DigitalIntake from './components/DigitalIntake';
+import { Materials } from './components/Materials';
 
 
 const router = createBrowserRouter([
@@ -20,7 +22,9 @@ const router = createBrowserRouter([
       // { path: "/register", element: <Register /> },
       { path: "/login", element: <Login /> },
       { path: "/intake", element: <IntakeHome /> },
-      { path: "/data-viewer", element: <DBPage /> }
+      { path: "/data-viewer", element: <DBPage /> },
+      { path: "/intake-digital", element: <DigitalIntake /> },
+      { path: "/materials", element: <Materials /> }
     ]
   }
 ]);

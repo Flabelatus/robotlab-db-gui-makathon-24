@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from '.././images/logo.png'
+import Logo from '.././images/logo.png';
 import { AppContext } from "../App";
 import Cookie from 'js-cookie';
 
@@ -24,8 +24,9 @@ export const AppBar = () => {
         fetch(`${process.env.REACT_APP_BACKEND}/logout`, requestOptions)
             .then((response) => response.json())
             .then(() => {
-                sessionStorage.setItem("jwtToken", "");
+                sessionStorage.setItem("jwtToken", null);
                 setLogged(false);
+                
                 navigate('/login');
             })
             .catch(error => {
@@ -34,7 +35,7 @@ export const AppBar = () => {
           
     };
     return (
-        <header className='text-white ' style={{ backgroundColor: 'blue', }}>
+        <header className='text-white ' style={{ backgroundColor: '#50f', }}>
             <div className="container-fluid">
                 <div className="row justify-content-between align-items-center p-3">
                     {/* <div className="col-6 col-md-2 mb-5">
@@ -48,7 +49,7 @@ export const AppBar = () => {
                             Contact
                         </Link>
                         
-                        {jwtToken === '' || jwtToken === null ? (
+                        {jwtToken === '' || jwtToken === 'null' ? (
                             <Link to="/login" className='btn btn-submit-light-small mt-2 fonts' style={{ fontSize: 12 }}>
                                 Login
                             </Link>

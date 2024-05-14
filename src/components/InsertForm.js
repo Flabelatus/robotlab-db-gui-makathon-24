@@ -3,6 +3,8 @@ import Input, { InputLong } from "./Input";
 import { useOutletContext } from "react-router-dom";
 import ThreeDCube from "./3DView";
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer, Text } from 'recharts';
+import { PCDViewer } from "./PCDViewer";
+import PCD from './../pcd/Conveyor_0000_Invalid.pcd';
 
 const InsertForm = () => {
 
@@ -365,10 +367,11 @@ const InsertForm = () => {
                         <div className="row justify-content-center mt-4 py-5" style={{ borderRadius: 8, border: 'solid 0px blue', height: 'fit-content'  }}>
                             <div className="col-md-3 container- py-2">
                                 <div className="px-2 py-3" style={{ backgroundColor: '#fff', height: 'fit-content', overflowY: 'auto', borderRadius: 8 }}>
-                                    <pre style={{ color: '#0000ff', fontWeight: 500, fontSize: 12 }}>{lastID ? JSON.stringify(newRow, null, 2) : 'Entered row displays here'}</pre>
+                                    <pre style={{ color: '#5500ff', fontWeight: 500, fontSize: 12 }}>{lastID ? JSON.stringify(newRow, null, 2) : 'Entered row displays here'}</pre>
                                 </div>
                             </div>
                             <div className="col-md-10 mt-2 d-flex- justify-content-center align-items-center" style={{ width: 'fit-content' }}>
+                                {/* <PCDViewer pcdFile={PCD}/> */}
                                 <ThreeDCube width={params.width} length={params.length} height={params.height} color={`rgb(${params.color})`} />
                                 <div className="row px-4 py-4 ms-4 mt-4" style={{ border: "0px solid #ccc", width: 'fit-content', borderRadius: 16 }}>
                                     <div className="col">

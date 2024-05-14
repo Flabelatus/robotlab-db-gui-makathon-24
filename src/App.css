@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: blue;
+  background-color: #50f;
   min-height: 0vh;
   display: flex;
   flex-direction: column;
@@ -39,12 +39,12 @@
 }
 
 .btn-submit-dark-small {
-  background-color: #0000ff;
+  background-color: #5500ff;
   color: #fff;
 }
 
 .btn-submit-dark-small:hover {
-  background-color: #0000ff90;
+  background-color: #5500ff90;
   color: #fff;
 }
 
@@ -77,8 +77,8 @@
 }
 
 .btn-submit-light-small-outline:hover {
-  background-color: #0000ff;
-  border: 1px solid #0000ff;
+  background-color: #5500ff;
+  border: 1px solid #5500ff;
   color: rgb(255, 255, 255);
 }
 
@@ -95,6 +95,17 @@
   width: fit-content;
 }
 
+.container-pcd {
+  background-color: #5500ff;
+  border-radius: 16px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  margin-left: 3%;
+  margin-right: 3%;
+  width: fit-content;
+}
 
 .checkbox-custom {
   scale: 1.2;
@@ -106,7 +117,7 @@
   background-color: blue;
   border-color: rgba(0, 0, 255, 0.704);
 }
-
+/* 
 .fonts {
   font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
@@ -114,12 +125,27 @@
 .fonts-2 {
   font-family: 'Courier New', Courier, monospace;
   font-weight: 600;
-}
+} */
 
 .side-options {
-  background-color: #4444ff;
+  background-color: #ffffff;
+  border-radius: 10;
 }
 
 .side-options:hover {
-  background-color: #0000ff;
+  background-color: #b6b6b6;
+}
+
+.material-card {
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.material-card:hover {
+  opacity: 85%;
+}
+
+
+.custom-input::placeholder {
+  color: white; /* Change placeholder color to white */
 }

@@ -25,7 +25,7 @@ export const DBPage = () => {
         <>
             {loading ?
 
-                <div className="row justify-content-center" style={{ height: 500, backgroundColor: "#0000ff" }}>
+                <div className="row justify-content-center" style={{ height: 500, backgroundColor: "#5500ff" }}>
 
                     <h1 className="fonts mt-5 mb-5 text-center" style={{ color: 'white', fontSize: 45, fontWeight: 700, textAlign: 'center' }}>Loading ...</h1>
 
@@ -33,7 +33,7 @@ export const DBPage = () => {
 
                 :
 
-                <div className="row justify-content-center" style={{ height: 'fit-content', backgroundColor: "#0000ff" }}>
+                <div className="row justify-content-center" style={{ height: 'fit-content', backgroundColor: "#5500ff" }}>
                     <h1 className="fonts mt-5 mb-5 text-center" style={{ color: 'white', fontSize: 45, fontWeight: 700, textAlign: 'center' }}>Table viewer</h1>
 
                     <Container className="" style={{ height: 'fit-content' }}>

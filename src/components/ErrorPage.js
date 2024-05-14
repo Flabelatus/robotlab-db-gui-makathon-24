@@ -8,7 +8,7 @@ export default function ErrorPage() {
         navigate(-1);
     }
     return (
-        <div className="container mt-5" style={{ backgroundColor: "blue" }}>
+        <div className="container mt-5" style={{ backgroundColor: "#50f" }}>
             <div className="row">
                 <div className="col-md-6 offset-md-3" style={{ color: 'white' }}>
                     <h1 className="mt-3">Oops!</h1>
