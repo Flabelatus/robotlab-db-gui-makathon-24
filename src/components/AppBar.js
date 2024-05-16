@@ -5,9 +5,11 @@ import { AppContext } from "../App";
 import Cookie from 'js-cookie';
 
 export const AppBar = () => {
-    const { jwtToken, setLogged } = useContext(AppContext);
+    const { setLogged, jwtToken } = useContext(AppContext);
     const navigate = useNavigate();
 
+    // const jwtToken = sessionStorage.getItem('jwtToken');
+    console.log(jwtToken);
     const handleLogout = () => {
 
         const requestOptions = {
@@ -24,7 +26,7 @@ export const AppBar = () => {
         fetch(`${process.env.REACT_APP_BACKEND}/logout`, requestOptions)
             .then((response) => response.json())
             .then(() => {
-                sessionStorage.setItem("jwtToken", null);
+                sessionStorage.removeItem("jwtToken");
                 setLogged(false);
                 
                 navigate('/login');
@@ -49,7 +51,7 @@ export const AppBar = () => {
                             Contact
                         </Link>
                         
-                        {jwtToken === '' || jwtToken === 'null' || jwtToken === null ? (
+                        {!jwtToken ? (
                             <Link to="/login" className='btn btn-submit-light-small mt-2 fonts' style={{ fontSize: 12 }}>
                                 Login
                             </Link>
