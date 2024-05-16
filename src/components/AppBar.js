@@ -8,8 +8,6 @@ export const AppBar = () => {
     const { setLogged, jwtToken } = useContext(AppContext);
     const navigate = useNavigate();
 
-    // const jwtToken = sessionStorage.getItem('jwtToken');
-    console.log(jwtToken);
     const handleLogout = () => {
 
         const requestOptions = {

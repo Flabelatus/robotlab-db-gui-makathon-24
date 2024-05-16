@@ -33,10 +33,10 @@ const ThreeDCube = ({ length, width, height, color }) => {
         const ambientLight = new THREE.AmbientLight(0x606060);
         scene.add(ambientLight);
 
-        const directionalLight1 = new THREE.DirectionalLight(0xffffff, 4);
+        const directionalLight1 = new THREE.DirectionalLight(0xffffff, 3);
         directionalLight1.position.set(0, 2, 1);
 
-        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 3);
+        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 2);
         directionalLight2.position.set(1, 1, -1);
 
         scene.add(directionalLight1);

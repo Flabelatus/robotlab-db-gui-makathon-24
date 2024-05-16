@@ -10,6 +10,7 @@ import { Home } from './components/Home';
 import { DBPage } from './components/DBViewer';
 import DigitalIntake from './components/DigitalIntake';
 import { Materials } from './components/Materials';
+import { Passport } from './components/Passport';
 
 
 const router = createBrowserRouter([
@@ -24,7 +25,8 @@ const router = createBrowserRouter([
       { path: "/intake", element: <IntakeHome /> },
       { path: "/data-viewer", element: <DBPage /> },
       { path: "/intake-digital", element: <DigitalIntake /> },
-      { path: "/materials", element: <Materials /> }
+      { path: "/materials", element: <Materials /> },
+      { path: "/passport/:material_id", element: <Passport />}
     ]
   }
 ]);

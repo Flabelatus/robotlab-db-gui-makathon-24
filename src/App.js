@@ -23,7 +23,6 @@ function App() {
   const jwtToken = sessionStorage.getItem("jwtToken");
 
   useEffect(() => {
-    console.log(jwtToken);
     if (!jwtToken) {
       navigate('/login');
       return;
@@ -54,7 +53,7 @@ function App() {
                     <Link to='/' className='btn btn- fonts text-start mb-5 side-options' style={{ fontSize: 14, fontWeight: 700, width: 200 }}>Home</Link>
 
                     {jwtToken && <Link to='/intake' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Manual Intake dashboard</Link>}
-                    {jwtToken && <Link to='/intake-digital' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Digital Intake dashboard</Link>}
+                    {/* {jwtToken && <Link to='/intake-digital' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Digital Intake dashboard</Link>} */}
                     {jwtToken && <Link to='/materials' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Material passports</Link>}
 
                     <Link to='/data-viewer' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Wood database</Link><hr style={{ color: '#555' }} />

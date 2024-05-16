@@ -160,7 +160,7 @@ const InsertForm = () => {
                 const { human_health, process: productionProcess, codename, material, wood_id, id, ...newImpact } = impactDat;
 
                 var result = Object.entries(newImpact).map(([key, value]) => ({ name: key, value: value }));
-                console.log(result);
+                
                 setImpactData(result);
                 setShowPie(true);
 

@@ -1,23 +1,34 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PCDLoader } from 'three/examples/jsm/loaders/PCDLoader'; // Import from correct path
 
 export const PCDViewer = ({ pcdFile }) => {
     const containerRef = useRef();
+    const [reset, setReset] = useState(false);
+    const [loading, setLoading] = useState(true);
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true }); // Enable antialiasing for smoother rendering
     let pointCloud;
 
+    const toggleReset = () => {
+        if (!reset) {
+            setReset(true);
+        } else {
+            setReset(false);
+        };
+    };
+
     useEffect(() => {
         const container = containerRef.current;
-        
+
         // Set up renderer
         renderer.setSize(window.innerWidth / 1.9, window.innerHeight / 1.9);
         renderer.setClearColor(0x5500ff);
         container.appendChild(renderer.domElement);
-    
+
         const ambientLight = new THREE.AmbientLight(0x606060);
         scene.add(ambientLight);
 
@@ -29,7 +40,7 @@ export const PCDViewer = ({ pcdFile }) => {
 
         scene.add(directionalLight1);
         scene.add(directionalLight2);
- 
+
         const controls = new OrbitControls(camera, renderer.domElement);
 
         controls.enableDamping = true;
@@ -44,6 +55,21 @@ export const PCDViewer = ({ pcdFile }) => {
             pcdFile,
             function (points) {
                 pointCloud = points;
+        
+                // Colorize points based on z-coordinate
+                const color = new THREE.Color();
+                const geometry = points.geometry;
+                const positionAttribute = geometry.getAttribute('position');
+                const colorAttribute = new THREE.Float32BufferAttribute(positionAttribute.count * 3, 3);
+        
+                for (let i = 0, j = 0; i < positionAttribute.count; i++, j += 6) {
+                    const z = positionAttribute.getY(i); // Assuming Y-coordinate represents Z
+                    color.setHSL((z / 500) + 0.5, 1.0, 0.5); // Adjust parameters for desired color range
+                    color.toArray(colorAttribute.array, j);
+                }
+        
+                geometry.setAttribute('color', colorAttribute);
+        
                 scene.add(points);
         
                 // Calculate center of the point cloud
@@ -53,14 +79,11 @@ export const PCDViewer = ({ pcdFile }) => {
                 // Update camera's lookAt to target the center of the point cloud
                 camera.lookAt(center);
                 controls.target.copy(center);
-
+                setLoading(false);
             },
-            
-            function ( xhr ) {
-
-                console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        
-            },  
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
             function (error) {
                 console.error('An error happened', error);
             }
@@ -78,7 +101,18 @@ export const PCDViewer = ({ pcdFile }) => {
             container.removeChild(renderer.domElement);
             scene.remove(pointCloud);
         };
-    }, [pcdFile]);
+    }, [pcdFile, reset]);
 
-    return <div className='container-pcd mt-2 mb-2' ref={containerRef} style={{width: 'fit-content', border: '1px solid #ccc'}} />;
+    return (
+        <div className='container-pcd mt-4' style={{ border: '1px solid #ccc' }}>
+            <div ref={containerRef}>
+                <button className='btn btn-dark fonts' onClick={toggleReset}>Default view</button>
+            </div>
+            {loading ?
+                <h1>Loading ...</h1>
+                :
+                <div className='container-pcd- mt-2 mb-2' ref={containerRef} style={{ width: 'fit-content', border: '0px solid #ccc' }} />
+            }
+        </div>
+    );
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form, useOutletContext } from "react-router-dom";
+import { Form, Link, useNavigate, useOutletContext } from "react-router-dom";
 import { Card, CardBody, CardHeader, Col, Container, Input, InputGroup, Row } from "reactstrap";
 
 
@@ -8,6 +8,8 @@ export const Materials = () => {
     const { devMode } = useOutletContext();
     const [wood, setWood] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         var url = `${process.env.REACT_APP_BACKEND}`;
@@ -54,16 +56,16 @@ export const Materials = () => {
                         <Container fluid className="" style={{ height: 'fit-content', backgroundColor: '#50f' }}>
                             {
                                 wood.map((w) => (
-                                    <div key={w.id} className="material-card mt-2" style={{ width: '' }}>
+                                    <Link key={w.id} className="material-card mt-2 btn m-2" style={{ width: '', backgroundColor: 'white'}}  onClick={(e) => navigate(`/passport/${w.id}`)}>
                                         <Row className="justify-content-center">
                                             <Col>
                                                 <Card style={{ backgroundColor: 'transparent', border: '0px' }}>
                                                     <CardHeader style={{ border: '0px', backgroundColor: 'transparent' }}>
                                                         <label className="text-start" style={{ fontSize: 20, fontWeight: 700, color: '#888', minWidth: 300 }}>Wood ID: #{w.id}</label><br />
                                                         <label className="text-start" style={{ fontSize: 12, fontWeight: 500, color: '#444' }}>{w.name}</label><br />
-
                                                         <label className="text-start" style={{ fontSize: 12, fontWeight: 500, color: '#444', width: 'fit-content' }}>Created at: {w.timestamp}</label><br />
                                                         <label className="text-start" style={{ fontSize: 12, fontWeight: 500, color: '#444' }}>Source location: {w.source}</label>
+                                                        
                                                     </CardHeader>
                                                     <CardBody>
                                                         <div className="px-0">
@@ -89,7 +91,7 @@ export const Materials = () => {
                                                 </Card>
                                             </Col>
                                         </Row>
-                                    </div>
+                                    </Link>
                                 ))
                             };
                         </Container >
