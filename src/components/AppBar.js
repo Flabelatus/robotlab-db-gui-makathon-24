@@ -49,7 +49,7 @@ export const AppBar = () => {
                             Contact
                         </Link>
                         
-                        {jwtToken === '' || jwtToken === 'null' ? (
+                        {jwtToken === '' || jwtToken === 'null' || jwtToken === null ? (
                             <Link to="/login" className='btn btn-submit-light-small mt-2 fonts' style={{ fontSize: 12 }}>
                                 Login
                             </Link>

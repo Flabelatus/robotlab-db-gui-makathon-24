@@ -19,9 +19,11 @@ function App() {
   const [logged, setLogged] = useState(false);
   const [devMode, setDevMode] = useState(false);
   const navigate = useNavigate();
+
   const jwtToken = sessionStorage.getItem("jwtToken");
 
   useEffect(() => {
+    console.log(jwtToken);
     if (jwtToken === 'null') {
       navigate('/login');
       return;
@@ -51,9 +53,9 @@ function App() {
                   <CardBody>
                     <Link to='/' className='btn btn- fonts text-start mb-5 side-options' style={{ fontSize: 14, fontWeight: 700, width: 200 }}>Home</Link>
 
-                    {jwtToken !== 'null' && <Link to='/intake' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Manual Intake dashboard</Link>}
-                    {jwtToken !== 'null' && <Link to='/intake-digital' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Digital Intake dashboard</Link>}
-                    {jwtToken !== 'null' && <Link to='/materials' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Material passports</Link>}
+                    {jwtToken !== 'null' || jwtToken !== null && <Link to='/intake' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Manual Intake dashboard</Link>}
+                    {jwtToken !== 'null' && jwtToken !== null && <Link to='/intake-digital' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Digital Intake dashboard</Link>}
+                    {jwtToken !== 'null' && jwtToken !== null && <Link to='/materials' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Material passports</Link>}
 
                     <Link to='/data-viewer' className='btn btn- fonts text-start mb-2 side-options' style={{ fontSize: 14, fontWeight: 600, width: 200 }}>Wood database</Link><hr style={{ color: '#555' }} />
 

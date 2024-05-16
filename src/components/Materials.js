@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, useOutletContext } from "react-router-dom";
-import { Card, CardBody, CardHeader, Col, Container, Input, InputGroup, Label, Row } from "reactstrap";
+import { Card, CardBody, CardHeader, Col, Container, Input, InputGroup, Row } from "reactstrap";
 
 
 export const Materials = () => {

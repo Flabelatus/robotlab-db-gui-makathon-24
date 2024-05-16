@@ -81,8 +81,8 @@ export const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <div className="row px-5">
-                            <button className="btn btn-submit-dark-small mt-4" style={{fontSize: 14, fontWeight: 700}}>
-                                Subimt
+                            <button className="btn btn-submit-dark-small mt-4" style={{fontSize: 14, fontWeight: 700}}type="submit">
+                                Login
                             </button>
                         </div>
 
