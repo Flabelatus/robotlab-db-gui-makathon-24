@@ -9,11 +9,14 @@ export const PCDViewer = ({ pcdFile }) => {
     const [loading, setLoading] = useState(true);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 5000);
+    camera.position.set(-86, -23, 665);
+    camera.rotateOnWorldAxis(new THREE.Vector3(1, 1, 0), 0.9);
     const renderer = new THREE.WebGLRenderer({ antialias: true }); // Enable antialiasing for smoother rendering
     let pointCloud;
 
     const toggleReset = () => {
+        console.log(camera.position.x, camera.position.y, camera.position.z);
         if (!reset) {
             setReset(true);
         } else {
@@ -26,7 +29,7 @@ export const PCDViewer = ({ pcdFile }) => {
 
         // Set up renderer
         renderer.setSize(window.innerWidth / 1.9, window.innerHeight / 1.9);
-        renderer.setClearColor(0x5500ff);
+        renderer.setClearColor(0xffffff);
         container.appendChild(renderer.domElement);
 
         const ambientLight = new THREE.AmbientLight(0x606060);
@@ -48,7 +51,7 @@ export const PCDViewer = ({ pcdFile }) => {
         controls.screenSpacePanning = false;
         controls.minDistance = 5;
         controls.maxDistance = 3500;
-
+        
         // Load PCD file
         const loader = new PCDLoader();
         loader.load(
@@ -59,23 +62,37 @@ export const PCDViewer = ({ pcdFile }) => {
                 // Colorize points based on z-coordinate
                 const color = new THREE.Color();
                 const geometry = points.geometry;
+
+                geometry.rotateZ(0.7)
                 const positionAttribute = geometry.getAttribute('position');
                 const colorAttribute = new THREE.Float32BufferAttribute(positionAttribute.count * 3, 3);
         
-                for (let i = 0, j = 0; i < positionAttribute.count; i++, j += 6) {
-                    const z = positionAttribute.getY(i); // Assuming Y-coordinate represents Z
-                    color.setHSL((z / 500) + 0.5, 1.0, 0.5); // Adjust parameters for desired color range
-                    color.toArray(colorAttribute.array, j);
+                // Calculate min and max Z values
+                let minZ = Infinity;
+                let maxZ = -Infinity;
+                for (let i = 0; i < positionAttribute.count; i++) {
+                    const z = positionAttribute.getZ(i);
+                    if (z < minZ) minZ = z;
+                    if (z > maxZ) maxZ = z;
+                }
+        
+                // Color the points based on normalized Z values
+                for (let i = 0; i < positionAttribute.count; i++) {
+                    const z = positionAttribute.getZ(i);
+                    const normalizedZ = (z - minZ) / (maxZ - minZ); // Normalize Z values to [0, 1]
+                    color.setHSL(1.5 * (1 - normalizedZ), 1.0, 0.5); // Adjust hue for desired color range
+                    color.toArray(colorAttribute.array, i * 3);
                 }
         
                 geometry.setAttribute('color', colorAttribute);
+                points.material.vertexColors = true;
         
                 scene.add(points);
         
                 // Calculate center of the point cloud
                 const boundingBox = new THREE.Box3().setFromObject(points);
                 const center = boundingBox.getCenter(new THREE.Vector3());
-        
+                
                 // Update camera's lookAt to target the center of the point cloud
                 camera.lookAt(center);
                 controls.target.copy(center);

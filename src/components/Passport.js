@@ -22,7 +22,7 @@ export const Passport = () => {
     const [impactData, setImpactData] = useState([]);
     const [showPie, setShowPie] = useState(false);
 
-    const COLORS = ["#334", "#50f", "#d94", "#80d" ];
+    const COLORS = ["#334", "#50f", "#d94", "#80d"];
 
     const navigate = useNavigate();
 
@@ -166,7 +166,7 @@ export const Passport = () => {
                                                                                             const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
                                                                                             const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
                                                                                             const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
-                                                                                            
+
                                                                                             return (
                                                                                                 <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
                                                                                                     {`€${impactData[index].value.toFixed(2)}`}
@@ -188,8 +188,15 @@ export const Passport = () => {
                                                             </Col>
                                                         </Row>
                                                         <Row className="justify-content-center mt-4 mb-4">
-                                                            <ThreeDCube width={wood.width} length={wood.length} height={wood.height} color={`rgb(${wood.color})`} />
-                                                            <PCDViewer pcdFile={PCD}/>
+                                                            <ThreeDCube
+                                                                width={wood.width}
+                                                                length={wood.length}
+                                                                height={wood.height}
+                                                                color={`rgb(${wood.color})`}
+                                                                metalPositions={[50, 240, 255]}
+                                                                metalSpan={100}
+                                                            />
+                                                            <PCDViewer pcdFile={PCD} />
                                                         </Row>
                                                     </div>
                                                 </CardBody>
