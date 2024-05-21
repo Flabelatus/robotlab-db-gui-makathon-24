@@ -58,13 +58,16 @@ const ThreeDCube = ({ length, width, height, color, metalPositions, metalSpan })
 
         // Grouping metal positions based on tolerance
         const groupedMetalPositions = [];
-        metalPositions.sort((a, b) => a - b).forEach(position => {
-            if (groupedMetalPositions.length === 0 || position - groupedMetalPositions[groupedMetalPositions.length - 1][1] > 100) {
-                groupedMetalPositions.push([position, position]);
-            } else {
-                groupedMetalPositions[groupedMetalPositions.length - 1][1] = position;
-            }
-        });
+        if (metalPositions && metalSpan) {
+            metalPositions.sort((a, b) => a - b).forEach(position => {
+                if (groupedMetalPositions.length === 0 || position - groupedMetalPositions[groupedMetalPositions.length - 1][1] > 100) {
+                    groupedMetalPositions.push([position, position]);
+                } else {
+                    groupedMetalPositions[groupedMetalPositions.length - 1][1] = position;
+                }
+            });
+        }
+ 
 
         // Add metal cubes, spheres, and bounding boxes
         groupedMetalPositions.forEach(([start, end]) => {

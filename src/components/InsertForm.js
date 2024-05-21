@@ -372,7 +372,7 @@ const InsertForm = () => {
                             </div>
                             <div className="col-md-10 mt-2 d-flex- justify-content-center align-items-center" style={{ width: 'fit-content' }}>
                                 {/* <PCDViewer pcdFile={PCD}/> */}
-                                <ThreeDCube width={params.width} length={params.length} height={params.height} color={`rgb(${params.color})`} />
+                                <ThreeDCube width={params.width} length={params.length} height={params.height} color={`rgb(${params.color})`} metalPositions={null} metalSpan={null} />
                                 <div className="row px-4 py-4 ms-4 mt-4" style={{ border: "0px solid #ccc", width: 'fit-content', borderRadius: 16 }}>
                                     <div className="col">
                                         {showPie &&
