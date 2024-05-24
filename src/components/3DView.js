@@ -19,7 +19,7 @@ const ThreeDCube = ({ length, width, height, color, metalPositions, metalSpan })
         const scene = new THREE.Scene();
 
         const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 1, 10000);
-        camera.position.set(100, 100, 120);
+        camera.position.set(100, 100, -120);
         camera.lookAt(0, 0, 0);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });

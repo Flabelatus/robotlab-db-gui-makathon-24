@@ -132,12 +132,18 @@ export const Passport = () => {
                                                                 <label className="text-start" style={{ fontSize: 12, fontWeight: 700, color: '#666' }}>{wood.height} mm</label>
                                                                 <br />
                                                                 <label className="text-start" style={{ fontSize: 12, fontWeight: 700, color: '#666' }}>{wood.weight} grams</label><br />
-                                                                <label className="text-start" style={{ fontSize: 12, fontWeight: 700, color: '#666' }}>{parseFloat(wood.density).toFixed(2)} g/cm3</label>
+                                                                <label className="text-start" style={{ fontSize: 12, fontWeight: 700, color: '#666' }}>{parseFloat(wood.density).toFixed(2)} g/cm3</label><br />
+                                                                <hr />
+                                                                <label className="text-start">{wood.reserved ? <span className="badge bg-warning" style={{ fontSize: 12, fontWeight: 700 }}>Reserved</span> : <span className="badge bg-success" style={{ fontSize: 12, fontWeight: 700 }}>Available</span>}</label><br />
+
+
                                                                 <br />
                                                                 <img
-                                                                    className="material-card"
-                                                                    style={{ width: 'fit-content', maxWidth: 350 }}
-                                                                    src="https://t4.ftcdn.net/jpg/03/10/50/83/360_F_310508338_CJsJ66AkZYmbcOknfHbPAqq9OBxQCQ9F.jpg">
+                                                                    className="material-card mt-5"
+                                                                    style={{ width: 'fit-content', minWidth: 350, maxWidth: 450 }}
+                                                                    // src="https://t4.ftcdn.net/jpg/03/10/50/83/360_F_310508338_CJsJ66AkZYmbcOknfHbPAqq9OBxQCQ9F.jpg"
+                                                                    src={`https://robotlab-residualwood.onrender.com/image/${wood.id}?dir=wood_intake`}
+                                                                    >
                                                                 </img>
                                                             </Col>
 
@@ -193,7 +199,7 @@ export const Passport = () => {
                                                                 length={wood.length}
                                                                 height={wood.height}
                                                                 color={`rgb(${wood.color})`}
-                                                                metalPositions={[50, 240, 255]}
+                                                                metalPositions={wood.metal_bbox_coords !== '' ? JSON.parse(wood.metal_bbox_coords) : null}
                                                                 metalSpan={100}
                                                             />
                                                             <PCDViewer pcdFile={PCD} />
